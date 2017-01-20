@@ -94,7 +94,7 @@ class TestEndpoints(TestBase):
         res3, json3 = self.client.get('/api/v1/bucketlists?limit=abc')
         self.assertEqual(res3.status_code, 400)
         self.assertIn(
-            'limit query parameter only accepts integers'
+            'limit query parameter only accepts integers',
             json3['message']
         )
 
@@ -117,7 +117,7 @@ class TestEndpoints(TestBase):
         res3, json3 = self.client.delete('/api/v1/bucketlists/2/items/')
         self.assertEqual(res3.status_code, 405)
         self.assertIn(
-            'The DELETE method is not allowed on this endpoint'
+            'The DELETE method is not allowed on this endpoint',
             json3['message']
         )
 
@@ -140,7 +140,7 @@ class TestEndpoints(TestBase):
                                          data={'description': 'dance time'})
         self.assertEqual(res3.status_code, 400)
         self.assertIn(
-            'Please provide a name for the bucketlist'
+            'Please provide a name for the bucketlist',
             json3['message']
         )
         res4, json4 = self.client.delete('/api/v1/bucketlists/2/items/',
@@ -148,6 +148,6 @@ class TestEndpoints(TestBase):
                                                "description": "Maji ya kufua"})
         self.assertEqual(res4.status_code, 400)
         self.assertIn(
-            'Please provide a name for the bucketlist item'
+            'Please provide a name for the bucketlist item',
             json4['message']
         )
