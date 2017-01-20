@@ -1,5 +1,5 @@
 from flask import jsonify, g, current_app
-from flask.ext.httpauth import HTTPBasicAuth
+from flask_httpauth import HTTPBasicAuth
 from .models import User
 
 auth = HTTPBasicAuth()

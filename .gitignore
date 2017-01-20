@@ -91,4 +91,7 @@ ENV/
 # Mac .DS_Store files
 .DS_Store
 
-app/databases/*
+# SQLite databases
+*.sqlite
+*.db
+# app/databases/*
