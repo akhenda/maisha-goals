@@ -1,6 +1,7 @@
 import os
 from flask import Flask, g
 from flask_sqlalchemy import SQLAlchemy
+from .decorators import json
 
 db = SQLAlchemy()
 
@@ -30,11 +31,16 @@ def create_app(config_name):
     from .auth import auth
 
     @app.route('/auth/register')
+    @json
     def register_user():
         pass
 
     @app.route('/auth/login')
+    @auth.login_required
+    @rate_limit(1, 600)  # one call per 10 minute period
+    @no_cache
+    @json
     def get_auth_token():
-        pass
+        return {'token': g.user.generate_auth_token()}
 
     return app
