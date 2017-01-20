@@ -50,7 +50,7 @@ class TestBucketlistItems(TestBase):
         res, json = self.client.get('/api/v1/bucketlists/1/items/')
         self.assertEqual(res.status_code, 200)
 
-    def test_operations _on_invalid_bucketlist_item(self):
+    def test_operations_on_invalid_bucketlist_item(self):
         """
         Tests to cover all invalid bucketlist items scenarios
         """

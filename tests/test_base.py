@@ -36,7 +36,7 @@ class TestClient():
 
         # Append the authentication headers to all requests
         headers = headers.copy()
-        if not headers['Authorization']:
+        if 'Authorization' not in headers:
             headers['Authorization'] = self.auth
         headers['Content-Type'] = 'application/json'
         headers['Accept'] = 'application/json'

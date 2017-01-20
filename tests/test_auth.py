@@ -30,20 +30,20 @@ class TestAuth(TestBase):
 
     def test_successful_login(self):
         ''' Test User login '''
-        res, json = self.app.post("/api/v1/auth/login",
-                                  data={
-                                    'username': 'Jack',
-                                    'password': 'test'
-                                  })
+        res, json = self.client.post("/api/v1/auth/login",
+                                     data={
+                                        'username': 'Jack',
+                                        'password': 'test'
+                                     })
         self.assertEqual(res.status_code, 200)
         self.assertIn("You have successfully logged in", json['message'])
 
     def test_unsuccessful_login(self):
         ''' Test User invalid credentials '''
-        res, json = self.app.post("/api/v1/auth/login",
-                                  data={
-                                    'username': 'Jackson',
-                                    'password': 'testing'
-                                  })
+        res, json = self.client.post("/api/v1/auth/login",
+                                     data={
+                                        'username': 'Jackson',
+                                        'password': 'testing'
+                                     })
         self.assertEqual(res.status_code, 403)
         self.assertIn("Incorrect username or password", json['message'])
