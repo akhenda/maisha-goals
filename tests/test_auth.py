@@ -8,12 +8,12 @@ class TestAuth(TestBase):
         ''' Test add a user to the DB '''
         res, json = self.client.post('/api/v1/auth/register',
                                      data={'name': 'Rodney'})
-        self.assertTrue(res.status_code == 201)
+        self.assertEqual(res.status_code, 201)
         location = res.headers['Location']
         res, json = self.client.get(location)
-        self.assertTrue(res.status_code == 200)
+        self.assertEqual(res.status_code, 200)
         self.assertTrue(json['name'] == 'Rodney')
-        self.assertTrue(
+        self.assertEqual(
             json['message'],
             "Your account has been successfuly created"
         )
@@ -23,7 +23,7 @@ class TestAuth(TestBase):
         res, json = self.client.post('/api/v1/auth/register',
                                      data={'name': 'Ronon'})
         self.assertTrue(res.status_code == 409)
-        self.assertTrue(
+        self.assertEqual(
             json['message'],
             "The username has been taken. Try another username"
         )
