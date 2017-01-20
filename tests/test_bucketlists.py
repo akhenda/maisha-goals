@@ -12,24 +12,24 @@ class TestBucketlists(TestBase):
             json['message'],
             "Your bucketlist was successfuly created"
         )
-        self.assertIn('Mars', res.data)
+        self.assertIn('Mars', json['name'])
         self.assertTrue(json['description'] == '')
 
     def test_update_bucketlist(self):
         """ Test editing of bucket lists """
-        res1, json1 = self.client.put('/api/v1/bucketlists/2',
-                                   data={"name": "Ndoo4"})
+        res, json = self.client.put('/api/v1/bucketlists/2',
+                                    data={"name": "Ndoo4"})
         self.assertEqual(res.status_code, 200)
         self.assertTrue(
             json['message'],
             "Your bucketlist was successfuly edited"
         )
-        self.assertIn('Ndoo4', res.data)
+        self.assertIn('Ndoo4', json['name'])
         self.assertTrue(json['description'] == '')
 
     def test_delete_bucketlist(self):
         """ Test deletion of a bucketlist """
-        res1, json1 = self.client.delete('/api/v1/bucketlists/1')
+        res, json = self.client.delete('/api/v1/bucketlists/1')
         self.assertEqual(res.status_code, 200)
         self.assertTrue(
             json['message'],
@@ -45,10 +45,10 @@ class TestBucketlists(TestBase):
         self.assertTrue(json1['description'] == '')
 
         # Get bucket list whose ID is 4
-        res, json = self.client.get('/api/v1/bucketlists/4')
-        self.assertEqual(res.status_code, 200)
-        self.assertIn('Ndoo4', json['name'])
-        self.assertTrue(json['description'] == '')
+        res2, json2 = self.client.get('/api/v1/bucketlists/4')
+        self.assertEqual(res2.status_code, 200)
+        self.assertIn('Ndoo4', json2['name'])
+        self.assertTrue(json2['description'] == '')
 
     def test_get_bucketlists(self):
         """ Test that all bucket lists are displayed """
@@ -97,7 +97,7 @@ class TestBucketlists(TestBase):
         )
 
         # Attempt to update another user's bucketlist
-        res2, json2 = self.client2.get('/api/v1/bucketlists/1',
+        res2, json2 = self.client2.put('/api/v1/bucketlists/1',
                                        data={
                                         "name": "ndoo6",
                                         "description": "desc"
@@ -109,7 +109,7 @@ class TestBucketlists(TestBase):
         )
 
         """ Test deletion of another user's bucketlist """
-        res3, json3 = self.client2.get('/api/v1/bucketlists/1')
+        res3, json3 = self.client2.delete('/api/v1/bucketlists/1')
         self.assertEqual(res3.status_code, 403)
         self.assertTrue(
             json3['message'],
@@ -118,10 +118,10 @@ class TestBucketlists(TestBase):
 
     def test_add_duplicate_bucketlist(self):
         """ Test creation of a bucketlist with an existing name """
-        res, json = self.client.get('/api/v1/bucketlists/',
-                                       data={
+        res, json = self.client.post('/api/v1/bucketlists/',
+                                     data={
                                         "name": "Ndoo2"
-                                       })
+                                     })
         self.assertEqual(res.status_code, 409)
         self.assertTrue(
             json['message'],
