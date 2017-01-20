@@ -4,21 +4,35 @@ from .test_base import TestBase
 class TestEndpoints(TestBase):
     """ Test the API endpoints """
 
+    def test_home_endpoint(self):
+        res, json = self.client.get('/api/v1/')
+        self.assertEqual(res.status_code, 200)
+
     def test_requests_with_no_token(self):
+        """ Test that tokens are required for secured endpoints """
         res1, json1 = self.client.get('/api/v1/bucketlists/',
                                       headers={'Authorization': ''})
-        self.assertTrue(res1.status_code == 403)
-        self.assertTrue(
+        self.assertEqual(res1.status_code, 401)
+        self.assertEqual(
             json1['message'],
-            "You are forbidden to view this resource"
+            "You are not authorized to view this resource"
         )
         res2, json2 = self.client.put('/api/v1/bucketlists/1',
                                       data={'name': 'Update BList'},
                                       headers={'Authorization': ''})
-        self.assertTrue(res2.status_code == 403)
-        self.assertTrue(
+        self.assertEqual(res2.status_code, 401)
+        self.assertEqual(
             json2['message'],
-            "You are forbidden to view this resource"
+            "You are not authorized to edit this resource"
+        )
+        res3, json3 = self.client.post("/api/v1/bucketlists/2/items/",
+                                       data={"title": "Ndoo1",
+                                             "description": "Jaza ndoo maji"},
+                                       headers={'Authorization': ''})
+        self.assertEqual(res3.status_code, 401)
+        self.assertIn(
+            "not authorized",
+            json3["message"]
         )
 
     def test_requests_with_invalid_tokens(self):
@@ -27,81 +41,113 @@ class TestEndpoints(TestBase):
                                        headers={
                                             'Authorization': 'inVal1D^TokEN'
                                             })
-        self.assertTrue(res1.status_code == 403)
-        self.assertTrue(
+        self.assertEqual(res1.status_code, 401)
+        self.assertEqual(
             json1['message'],
-            "You are forbidden to view this resource"
+            "You are not authorized to add a resource"
         )
         res2, json2 = self.client.delete('/api/v1/bucketlists/2/items/3',
                                          data={'name': 'New BList item'},
                                          headers={
                                             'Authorization': 'inVal1D^TokEN'
                                             })
-        self.assertTrue(res2.status_code == 403)
-        self.assertTrue(
+        self.assertEqual(res2.status_code, 401)
+        self.assertEqual(
             json2['message'],
-            "You are forbidden to view this resource"
+            "You are not authorized to delete this resource"
         )
 
     def test_invalid_urls(self):
         res1, json1 = self.client.post('/api/v1/bucketlist/3/items/',
                                        data={'name': 'New BList item'})
-        self.assertTrue(res1.status_code == 404)
-        self.assertTrue(
+        self.assertEqual(res1.status_code, 404)
+        self.assertEqual(
             json1['message'],
-            "Resource not found"
+            "The requested url was not found"
         )
         res2, json2 = self.client.put('/api/v1/bucketlists//2/items/3',
                                       data={'name': 'New BList item'})
-        self.assertTrue(res2.status_code == 404)
-        self.assertTrue(
+        self.assertEqual(res2.status_code, 404)
+        self.assertEqual(
             json2['message'],
-            "Resource not found"
+            "The requested url was not found"
         )
+        res3, json3 = self.client.get('/api/v1/bucketlists//')
+        self.assertEqual(res3.status_code, 404)
+        self.assertEqual(json3['message'], 'The requested url was not found')
 
     def test_invalid_query_parameters(self):
         res1, json1 = self.client.get('/api/v1/bucketlists?limitt=20')
-        self.assertTrue(res1.status_code == 400)
-        self.assertTrue(
+        self.assertEqual(res1.status_code, 400)
+        self.assertEqual(
             json1['message'],
             "Invalid query parameter"
         )
         res2, json2 = self.client.put('/api/v1/bucketlists?s=blist',
                                       data={'name': 'Update BList'})
-        self.assertTrue(res2.status_code == 400)
-        self.assertTrue(
+        self.assertEqual(res2.status_code, 400)
+        self.assertEqual(
             json2['message'],
             "Invalid query parameter"
+        )
+
+        res3, json3 = self.client.get('/api/v1/bucketlists?limit=abc')
+        self.assertEqual(res3.status_code, 400)
+        self.assertIn(
+            'limit query parameter only accepts integers'
+            json3['message']
         )
 
     def test_allowed_url_methods(self):
         res1, json1 = self.client.put('/api/v1/bucketlists/3/items/',
                                       data={'name': 'New BList item'})
-        self.assertTrue(res1.status_code == 405)
-        self.assertTrue(
+        self.assertEqual(res1.status_code, 405)
+        self.assertEqual(
             json1['message'],
-            "The method is not supported"
+            "The PUT method is not allowed on this endpoint"
         )
         res2, json2 = self.client.post('/api/v1/bucketlists/2/items/3',
                                        data={'name': 'New BList item'})
-        self.assertTrue(res2.status_code == 405)
-        self.assertTrue(
+        self.assertEqual(res2.status_code, 405)
+        self.assertEqual(
             json2['message'],
-            "he method is not supported"
+            "The POST method is not allowed on this endpoint"
+        )
+
+        res3, json3 = self.client.delete('/api/v1/bucketlists/2/items/')
+        self.assertEqual(res3.status_code, 405)
+        self.assertIn(
+            'The DELETE method is not allowed on this endpoint'
+            json3['message']
         )
 
     def test_malformed_post_and_put_requests(self):
         res1, json1 = self.client.post('/api/v1/bucketlists/',
                                        data={'title': 'New BList item'})
-        self.assertTrue(res1.status_code == 400)
-        self.assertTrue(
+        self.assertEqual(res1.status_code, 400)
+        self.assertEqual(
             json1['message'],
             "This resource does not have a field named 'title'"
         )
         res2, json2 = self.client.put('/api/v1/bucketlists/1',
                                       data={'title': 'Updated BList'})
-        self.assertTrue(res2.status_code == 400)
-        self.assertTrue(
+        self.assertEqual(res2.status_code, 400)
+        self.assertEqual(
             json2['message'],
             "This resource does not have a field named 'title'"
+        )
+        res3, json3 = self.client.delete('/api/v1/bucketlists',
+                                         data={'description': 'dance time'})
+        self.assertEqual(res3.status_code, 400)
+        self.assertIn(
+            'Please provide a name for the bucketlist'
+            json3['message']
+        )
+        res4, json4 = self.client.delete('/api/v1/bucketlists/2/items/',
+                                         data={"nam": "Ndoo3",
+                                               "description": "Maji ya kufua"})
+        self.assertEqual(res4.status_code, 400)
+        self.assertIn(
+            'Please provide a name for the bucketlist item'
+            json4['message']
         )
