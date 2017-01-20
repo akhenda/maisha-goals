@@ -26,4 +26,15 @@ def create_app(config_name):
         rv.headers.extend(headers)
         return rv
 
+    # authentication token route
+    from .auth import auth
+
+    @app.route('/auth/register')
+    def register_user():
+        pass
+
+    @app.route('/auth/login')
+    def get_auth_token():
+        pass
+
     return app
