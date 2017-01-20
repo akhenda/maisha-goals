@@ -1,9 +1,10 @@
-from flask_testing import TestCase
+from unittest import TestCase
 from base64 import b64encode
 import json
 from urllib.parse import urlsplit, urlunsplit
+from werkzeug.exceptions import NotFound
 from app import create_app, db
-from app.models import User, Bucketlist, Item
+from app.models import User, Bucketlist, BucketlistItem
 
 
 class TestClient():
@@ -81,20 +82,20 @@ class TestBase(TestCase):
         db.create_all()
         u = User(username=self.default_username)
         u.set_password(self.default_password)
-        b1 = Bucketlist(title="World Domination",
+        b1 = Bucketlist(name="World Domination",
                         description="Conquer the world by going back in time",
                         created_by=1)
-        b2 = Bucketlist(title="Dragon Balls",
+        b2 = Bucketlist(name="Dragon Balls",
                         description="Find all 7 Dragon Balls",
                         created_by=1)
-        i1 = Item(title="Build a Time Machine",
-                        description="Pay Neil deGrasse a visit",
-                        created_by=1,
-                        bucketlist_id=1)
-        i2 = Item(title="Dragon Ball Detector",
-                        description="Borrow the Dragon Ball Radar from Bulma",
-                        created_by=1,
-                        bucketlist_id=2)
+        i1 = BucketlistItem(name="Build a Time Machine",
+                            description="Pay Neil deGrasse a visit",
+                            created_by=1,
+                            bucketlist_id=1)
+        i2 = BucketlistItem(name="Dragon Ball Detector",
+                            description="Borrow the Dragon Ball Radar from Bulma",
+                            created_by=1,
+                            bucketlist_id=2)
         db.session.add(u)
         db.session.add(b1)
         db.session.add(b2)
