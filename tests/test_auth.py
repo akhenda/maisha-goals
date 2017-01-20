@@ -19,15 +19,12 @@ class TestAuth(TestBase):
         )
 
     def test_unsuccessful_registration(self):
-        ''' Register 2 users with the same username '''
-        res1, json1 = self.client.post('/api/v1/auth/register',
-                                       data={'name': 'Samantha'})
-        res2, json2 = self.client.post('/api/v1/auth/register',
-                                       data={'name': 'Samantha'})
-        self.assertTrue(res1.status_code == 201)
-        self.assertTrue(res2.status_code == 409)
+        ''' Register a user with a username already in the DB'''
+        res, json = self.client.post('/api/v1/auth/register',
+                                     data={'name': 'Ronon'})
+        self.assertTrue(res.status_code == 409)
         self.assertTrue(
-            json2['message'],
+            json['message'],
             "The username has been taken. Try another username"
         )
 
