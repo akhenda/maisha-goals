@@ -80,8 +80,10 @@ class TestBase(TestCase):
         self.ctx.push()
         db.drop_all()
         db.create_all()
-        u = User(username=self.default_username)
-        u.set_password(self.default_password)
+        u1 = User(username=self.default_username)
+        u1.set_password(self.default_password)
+        u2 = User(username='Ronon')
+        u2.set_password('dex')
         b1 = Bucketlist(name="World Domination",
                         description="Conquer the world by going back in time",
                         created_by=1)
@@ -96,13 +98,15 @@ class TestBase(TestCase):
                             description="Borrow the Dragon Ball Radar from Bulma",
                             created_by=1,
                             bucketlist_id=2)
-        db.session.add(u)
+        db.session.add(u1)
+        db.session.add(u2)
         db.session.add(b1)
         db.session.add(b2)
         db.session.add(i1)
         db.session.add(i2)
         db.session.commit()
-        self.client = TestClient(self.app, u.generate_auth_token(), '')
+        self.client = TestClient(self.app, u1.generate_auth_token(), '')
+        self.client2 = TestClient(self.app, u2.generate_auth_token(), '')
 
     def tearDown(self):
         """ Destroy the test database and release the app context """
