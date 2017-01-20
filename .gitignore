@@ -91,4 +91,4 @@ ENV/
 # Mac .DS_Store files
 .DS_Store
 
-databases/*
+databases/*.db
