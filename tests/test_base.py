@@ -2,7 +2,6 @@ from unittest import TestCase
 from base64 import b64encode
 import json
 from urllib.parse import urlsplit, urlunsplit
-from werkzeug.exceptions import NotFound
 from app import create_app, db
 from app.models import User, Bucketlist, BucketlistItem
 
