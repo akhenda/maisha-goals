@@ -2,6 +2,7 @@ import os
 from flask import Flask, jsonify, g
 from flask_sqlalchemy import SQLAlchemy
 from .decorators import json
+from.models import User
 
 db = SQLAlchemy()
 
@@ -33,7 +34,11 @@ def create_app(config_name):
     @app.route('/auth/register')
     @json
     def register_user():
-        pass
+        u = User()
+        u.import_data(request.json)
+        db.session.add(u)
+        db.session.commit()
+        return {'message': 'The user has been created successfully'}, 201, {}
 
     @app.route('/auth/login')
     @auth.login_required
