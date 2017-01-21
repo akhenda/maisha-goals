@@ -80,7 +80,11 @@ class Bucketlist(db.Model):
 
     def import_data(self, data):
         try:
-            self.name = data['name']
+            if not self.query.filter_by(name=data['name']).count():
+                self.name = data['name']
+            else:
+                raise ValidationError('You already have a bucketlist \
+                    with that name.')
         except KeyError as e:
             raise ValidationError('Invalid bucketlist: missing ' + e.args[0])
         return self
