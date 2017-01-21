@@ -2,7 +2,7 @@ import functools
 from flask import url_for, request
 
 
-def paginate(collection, max_per_page=25):
+def paginate(collection, max_per_page=20):
     """Generate a paginated response for a resource collection.
 
     Routes that use this decorator must return a SQLAlchemy query as a
@@ -23,7 +23,7 @@ def paginate(collection, max_per_page=25):
             per_page = min(request.args.get('per_page', max_per_page,
                                             type=int), max_per_page)
             expanded = None
-            if request.args.get('expanded', 0, type=int) != 0:
+            if request.args.get('expanded', 0, type=int) == 0:
                 expanded = 1
 
             # run the query with Flask-SQLAlchemy's pagination
