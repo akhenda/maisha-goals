@@ -1,7 +1,7 @@
 from flask import request
 from . import api
 from .. import db
-from ..models import BUcketlist, BucketlistItem
+from ..models import Bucketlist, BucketlistItem
 from ..decorators import json, paginate
 
 
