@@ -81,7 +81,6 @@ class Bucketlist(db.Model):
     def import_data(self, data):
         try:
             self.name = data['name']
-            self.description = data['description']
         except KeyError as e:
             raise ValidationError('Invalid bucketlist: missing ' + e.args[0])
         return self
