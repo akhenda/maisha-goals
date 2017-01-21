@@ -19,7 +19,12 @@ def get_bucketlist(id):
 
 @api.route('/bucketlists/', methods=['POST'])
 def new_bucketlist():
-    pass
+    user = User.query.get_or_404(g.user.id)
+    bucketlist = Bucketlist(user=user)
+    bucketlist.import_data(request.json)
+    db.session.add(bucketlist)
+    db.session.commit()
+    return {}, 201, {'Location': bucketlist.get_url()}
 
 
 @api.route('/bucketlists/<int:id>', methods=['PUT'])
