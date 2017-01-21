@@ -48,9 +48,9 @@ class Bucketlist(db.Model):
     date_created = db.Column(db.DateTime, default=datetime.now)
     date_modified = db.Column(db.DateTime,
                               onupdate=datetime.now)
-    created_by = db.Column(db.Integer, db.ForeignKey('users.id'))
-    user = db.relationship('User',
-                           backref=db.backref('bucketlist', lazy="dynamic"))
+    created_by = db.Column(db.Integer, db.ForeignKey('users.id'), index=True)
+    # user = db.relationship('User',
+    #                        backref=db.backref('bucketlist', lazy="dynamic"))
     items = db.relationship('BucketlistItem', backref='bucketlist',
                             lazy='dynamic',
                             cascade='all, delete-orphan')
@@ -70,6 +70,7 @@ class Bucketlist(db.Model):
     def import_data(self, data):
         try:
             self.name = data['name']
+            self.description = data['description']
         except KeyError as e:
             raise ValidationError('Invalid bucketlist: missing ' + e.args[0])
         return self
