@@ -1,5 +1,5 @@
 from flask import jsonify
-from ..exceptions import ValidationError
+from ..exceptions import ValidationError, ConflictError
 from . import api
 
 
@@ -24,6 +24,14 @@ def method_not_supported(e):
     res = jsonify({'status': 405, 'error': 'method not supported',
                   'message': 'the method is not supported'})
     res.status_code = 405
+    return res
+
+
+@api.app_errorhandler(409)
+def resource_conflict(e):
+    res = jsonify({'status': 409, 'error': 'conflict',
+                  'message': e.args[0]})
+    res.status_code = 409
     return res
 
 
