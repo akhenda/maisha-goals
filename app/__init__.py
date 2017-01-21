@@ -2,7 +2,7 @@ import os
 from flask import Flask, jsonify, g
 from flask_sqlalchemy import SQLAlchemy
 from .decorators import json
-from.models import User
+from .models import User
 
 db = SQLAlchemy()
 
