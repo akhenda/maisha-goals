@@ -1,7 +1,7 @@
 from flask import g, request
 from . import api
 from .. import db
-from ..models import User, Bucketlist, BucketlistItem
+from ..models import User, Bucketlist
 from ..decorators import json, paginate
 
 
@@ -29,9 +29,16 @@ def new_bucketlist():
 
 @api.route('/bucketlists/<int:id>', methods=['PUT'])
 def edit_bucketlist(id):
-    pass
+    bucketlist = Bucketlist.query.get_or_404(id)
+    bucketlist.import_data(request.json)
+    db.session.add(bucketlist)
+    db.session.commit()
+    return {}
 
 
 @api.route('/bucketlists/<int:id>', methods=['DELETE'])
 def delete_bucketlist(id):
-    pass
+    bucketlist = Bucketlist.query.get_or_404(id)
+    db.session.delete(bucketlist)
+    db.session.commit()
+    return {}
