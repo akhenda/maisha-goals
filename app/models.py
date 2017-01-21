@@ -39,8 +39,11 @@ class User(db.Model):
 
     def import_data(self, data):
         try:
-            self.username = data['username']
-            self.password_hash = generate_password_hash(data['password'])
+            if not self.query.filter_by(username=data['username']).count():
+                self.username = data['username']
+                self.password_hash = generate_password_hash(data['password'])
+            else:
+                raise ValidationError('That username is taken.')
         except KeyError as e:
             raise ValidationError('Invalid user: missing ' + e.args[0])
         return self
