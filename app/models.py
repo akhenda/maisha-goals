@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import url_for, current_app
 from . import db
-from .exceptions import ValidationError
+from .exceptions import ValidationError, ConflictError
 from .utils import split_url
 
 
@@ -43,7 +43,7 @@ class User(db.Model):
                 self.username = data['username']
                 self.password_hash = generate_password_hash(data['password'])
             else:
-                raise ValidationError('That username is taken.')
+                raise ConflictError('That username is taken.')
         except KeyError as e:
             raise ValidationError('Invalid user: missing ' + e.args[0])
         return self
@@ -83,7 +83,7 @@ class Bucketlist(db.Model):
             if not self.query.filter_by(name=data['name']).count():
                 self.name = data['name']
             else:
-                raise ValidationError(
+                raise ConflictError(
                     'You already have a bucketlist with that name.'
                 )
         except KeyError as e:

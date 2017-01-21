@@ -27,7 +27,7 @@ def method_not_supported(e):
     return res
 
 
-@api.app_errorhandler(409)
+@api.app_errorhandler(ConflictError)
 def resource_conflict(e):
     res = jsonify({'status': 409, 'error': 'conflict',
                   'message': e.args[0]})
