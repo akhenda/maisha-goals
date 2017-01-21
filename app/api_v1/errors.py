@@ -4,9 +4,17 @@ from . import api
 
 
 @api.app_errorhandler(ValidationError)
-def bad_request(e):
+def generic_bad_request(e):
     res = jsonify({'status': 400, 'error': 'bad request',
                   'message': e.args[0]})
+    res.status_code = 400
+    return res
+
+
+@api.app_errorhandler(400)
+def bad_request(e):
+    res = jsonify({'status': 400, 'error': 'bad request',
+                  'message': 'you have sent a malformed request'})
     res.status_code = 400
     return res
 
