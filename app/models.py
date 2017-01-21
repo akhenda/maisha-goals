@@ -60,8 +60,6 @@ class Bucketlist(db.Model):
     date_modified = db.Column(db.DateTime,
                               onupdate=datetime.now)
     created_by = db.Column(db.Integer, db.ForeignKey('users.id'), index=True)
-    # user = db.relationship('User',
-    #                        backref=db.backref('bucketlist', lazy="dynamic"))
     items = db.relationship('BucketlistItem', backref='bucketlist',
                             lazy='dynamic',
                             cascade='all, delete-orphan')
@@ -71,10 +69,15 @@ class Bucketlist(db.Model):
 
     def export_data(self):
         return {
-            'self_url': self.get_url(),
+            'id': self.id,
             'name': self.name,
             'description': self.description,
-            'items_url': url_for('api.get_bucketlists', id=self.id,
+            'items': [],
+            'date_created': self.date_created,
+            'date_modified': self.date_modified,
+            'created_by': self.created_by,
+            'self_url': self.get_url(),
+            'items_url': url_for('api.get_items', id=self.id,
                                  _external=True)
         }
 
@@ -83,6 +86,8 @@ class Bucketlist(db.Model):
             if not self.query.filter_by(name=data['name']) \
                              .filter_by(created_by=g.user.id).count():
                 self.name = data['name']
+                if 'description' in data:
+                    self.description = data['description']
             else:
                 raise ConflictError(
                     'You already have a bucketlist with that name.'
