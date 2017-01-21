@@ -104,30 +104,35 @@ class BucketlistItem(db.Model):
     name = db.Column(db.String(64))
     description = db.Column(db.Text)
     bucketlist_id = db.Column(db.Integer, db.ForeignKey('bucketlists.id'))
-    created_by = db.Column(db.Integer, db.ForeignKey("users.id"))
+    created_by = db.Column(db.Integer, db.ForeignKey('users.id'))
     date_created = db.Column(db.DateTime, default=datetime.now)
     date_modified = db.Column(db.DateTime,
                               onupdate=datetime.now)
-    user = db.relationship('User',
-                           backref=db.backref('bucketlistitems',
-                                              lazy='dynamic'))
-    is_done = db.Column(db.Boolean, default=False)
+    # user = db.relationship('User',
+    #                        backref=db.backref('bucketlistitems',
+    #                                           lazy='dynamic'))
+    done = db.Column(db.Boolean, default=False)
 
     def get_url(self):
         return url_for('api.get_item', id=self.id, _external=True)
 
     def export_data(self):
         return {
+            'id': self.id,
+            'name': self.name,
+            'date_created': self.date_created,
+            'date_modified': self.date_modified,
+            'done': self.done,
             'self_url': self.get_url(),
-            'bucketlist_url': self.bucketlist.get_url(),
-            'name': self.name
+            'bucketlist_url': self.bucketlist.get_url()
         }
 
     def import_data(self, data):
         try:
             endpoint, args = split_url(data['bucketlist_url'])
             self.name = data['name']
-            self.description = data['description']
+            if 'description' in data:
+                self.description = data['description']
         except KeyError as e:
             raise ValidationError('Invalid item: missing ' + e.args[0])
         if endpoint != 'api.get_bucketlist' or not 'id' in args:
