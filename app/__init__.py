@@ -1,5 +1,5 @@
 import os
-from flask import Flask, g
+from flask import Flask, jsonify, g
 from flask_sqlalchemy import SQLAlchemy
 from .decorators import json
 
@@ -38,7 +38,7 @@ def create_app(config_name):
     @app.route('/auth/login')
     @auth.login_required
     @json
-    def get_auth_token():
+    def login_user():
         return {'token': g.user.generate_auth_token()}
 
     return app
