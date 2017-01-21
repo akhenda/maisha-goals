@@ -1,16 +1,20 @@
 from flask import request
 from . import api
 from .. import db
+from ..models import Order, Customer
+from ..decorators import json, paginate
 
 
 @api.route('/bucketlists/', methods=['GET'])
+@json
+@paginate('bucketlists')
 def get_bucketlists():
-    pass
+    return Bucketlist.query
 
 
 @api.route('/bucketlists/<int:id>', methods=['GET'])
 def get_bucketlist(id):
-    pass
+    return Bucketlist.query.get_or_404(id)
 
 
 @api.route('/bucketlists/', methods=['POST'])
