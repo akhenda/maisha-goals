@@ -37,6 +37,14 @@ class User(db.Model):
             return None
         return User.query.get(data['id'])
 
+    def import_data(self, data):
+        try:
+            self.username = data['username']
+            self.password_hash = generate_password_hash(data['password'])
+        except KeyError as e:
+            raise ValidationError('Invalid user: missing ' + e.args[0])
+        return self
+
 
 class Bucketlist(db.Model):
     ''' Bucketlists DB interface '''
