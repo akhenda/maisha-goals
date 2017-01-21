@@ -3,7 +3,7 @@ from ..exceptions import ValidationError
 from . import api
 
 
-@api.errorhandler(ValidationError)
+@api.app_errorhandler(ValidationError)
 def bad_request(e):
     res = jsonify({'status': 400, 'error': 'bad request',
                   'message': e.args[0]})
@@ -19,7 +19,7 @@ def not_found(e):
     return res
 
 
-@api.errorhandler(405)
+@api.app_errorhandler(405)
 def method_not_supported(e):
     res = jsonify({'status': 405, 'error': 'method not supported',
                   'message': 'the method is not supported'})
