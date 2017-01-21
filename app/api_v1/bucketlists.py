@@ -13,14 +13,16 @@ def get_bucketlists():
 
 
 @api.route('/bucketlists/<int:id>', methods=['GET'])
+@json
 def get_bucketlist(id):
     return Bucketlist.query.get_or_404(id)
 
 
 @api.route('/bucketlists/', methods=['POST'])
+@json
 def new_bucketlist():
     user = User.query.get_or_404(g.user.id)
-    bucketlist = Bucketlist(user=user)
+    bucketlist = Bucketlist(created_by=user.id)
     bucketlist.import_data(request.json)
     db.session.add(bucketlist)
     db.session.commit()
@@ -28,6 +30,7 @@ def new_bucketlist():
 
 
 @api.route('/bucketlists/<int:id>', methods=['PUT'])
+@json
 def edit_bucketlist(id):
     bucketlist = Bucketlist.query.get_or_404(id)
     bucketlist.import_data(request.json)
@@ -37,6 +40,7 @@ def edit_bucketlist(id):
 
 
 @api.route('/bucketlists/<int:id>', methods=['DELETE'])
+@json
 def delete_bucketlist(id):
     bucketlist = Bucketlist.query.get_or_404(id)
     db.session.delete(bucketlist)
