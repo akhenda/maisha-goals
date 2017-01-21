@@ -1,5 +1,5 @@
 import os
-from flask import Flask, jsonify, g
+from flask import Flask, request, jsonify, g
 from flask_sqlalchemy import SQLAlchemy
 from .decorators import json
 
@@ -31,7 +31,7 @@ def create_app(config_name):
     from .auth import auth
     from .models import User
 
-    @app.route('/auth/register')
+    @app.route('/auth/register', methods=['POST'])
     @json
     def register_user():
         u = User()
