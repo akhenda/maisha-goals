@@ -3,7 +3,7 @@ from dateutil import parser as datetime_parser
 from dateutil.tz import tzutc
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from flask import url_for, current_app
+from flask import g, url_for, current_app
 from . import db
 from .exceptions import ValidationError, ConflictError
 from .utils import split_url
@@ -80,7 +80,8 @@ class Bucketlist(db.Model):
 
     def import_data(self, data):
         try:
-            if not self.query.filter_by(name=data['name']).count():
+            if not self.query.filter_by(name=data['name']) \
+                             .filter_by(created_by=g.user.id).count():
                 self.name = data['name']
             else:
                 raise ConflictError(
