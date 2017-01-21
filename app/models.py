@@ -15,7 +15,7 @@ class User(db.Model):
     __table_args__ = {'extend_existing': True}
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), index=True)
+    username = db.Column(db.String(64), index=True, unique=True)
     password_hash = db.Column(db.String(128))
 
     def set_password(self, password):
