@@ -37,8 +37,6 @@ def create_app(config_name):
 
     @app.route('/auth/login')
     @auth.login_required
-    @rate_limit(1, 600)  # one call per 10 minute period
-    @no_cache
     @json
     def get_auth_token():
         return {'token': g.user.generate_auth_token()}
