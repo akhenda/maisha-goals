@@ -1,4 +1,4 @@
-from flask import request
+from flask import g, request
 from . import api
 from .. import db
 from ..models import User, Bucketlist, BucketlistItem
