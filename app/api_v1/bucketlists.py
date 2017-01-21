@@ -9,7 +9,7 @@ from ..decorators import json, paginate
 @json
 @paginate('bucketlists')
 def get_bucketlists():
-    return Bucketlist.query
+    return Bucketlist.query.filter_by(created_by=g.user.id)
 
 
 @api.route('/bucketlists/<int:id>', methods=['GET'])
