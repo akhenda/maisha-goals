@@ -106,6 +106,7 @@ class BucketlistItem(db.Model):
         try:
             endpoint, args = split_url(data['bucketlist_url'])
             self.name = data['name']
+            self.description = data['description']
         except KeyError as e:
             raise ValidationError('Invalid item: missing ' + e.args[0])
         if endpoint != 'api.get_bucketlist' or not 'id' in args:
