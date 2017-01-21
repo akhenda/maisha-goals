@@ -2,7 +2,6 @@ import os
 from flask import Flask, jsonify, g
 from flask_sqlalchemy import SQLAlchemy
 from .decorators import json
-from .models import User
 
 db = SQLAlchemy()
 
@@ -30,6 +29,7 @@ def create_app(config_name):
 
     # authentication token route
     from .auth import auth
+    from .models import User
 
     @app.route('/auth/register')
     @json
