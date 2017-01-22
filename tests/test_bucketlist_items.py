@@ -1,5 +1,6 @@
 from .test_base import TestBase
 from werkzeug.exceptions import NotFound
+from app.exceptions import ConflictError
 
 
 class TestBucketlistItems(TestBase):
@@ -89,15 +90,16 @@ class TestBucketlistItems(TestBase):
 
     def test_add_duplicate_bucketlist_item(self):
         """ Test creation of a bucketlist item with an existing name """
-        res, json = self.client.post('/api/v1/bucketlists/1/items/',
-                                     data={
-                                        "name": "Edited item"
-                                     })
-        self.assertEqual(res.status_code, 409)
-        self.assertTrue(
-            json['message'],
-            "You already have a bucketlist item with that name"
-        )
+        with self.assertRaises(ConflictError):
+            res, json = self.client.post('/api/v1/bucketlists/1/items/',
+                                         data={
+                                            "name": "Build a Time Machine"
+                                         })
+            self.assertEqual(res.status_code, 409)
+            self.assertTrue(
+                json['message'],
+                "You already have a bucketlist item with that name"
+            )
 
     def test_non_existent_bucketlists_and_items(self):
         """
