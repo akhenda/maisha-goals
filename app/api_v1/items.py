@@ -67,7 +67,10 @@ def edit_item(id, item_id):
 @api.route('/bucketlists/<int:id>/items/<int:item_id>', methods=['DELETE'])
 @json
 def delete_item(id, item_id):
-    item = BucketlistItem.query.get_or_404(item_id)
+    item = BucketlistItem.query.filter_by(
+                                    bucketlist_id=id,
+                                    id=item_id
+                                ).first_or_404()
     db.session.delete(item)
     db.session.commit()
     return {}
