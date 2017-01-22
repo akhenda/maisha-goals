@@ -1,5 +1,6 @@
 from .test_base import TestBase
 from base64 import b64encode
+from app.exceptions import ConflictError
 
 
 class TestAuth(TestBase):
@@ -25,16 +26,17 @@ class TestAuth(TestBase):
 
     def test_unsuccessful_registration(self):
         ''' Register a user with a username already in the DB'''
-        res, json = self.client.post('/auth/register',
-                                     data={
-                                        'username': 'Ronon',
-                                        'password': '123'
-                                     })
-        self.assertTrue(res.status_code == 409)
-        self.assertEqual(
-            json['message'],
-            "that username is taken"
-        )
+        with self.assertRaises(ConflictError):
+            res, json = self.client.post('/auth/register',
+                                         data={
+                                            'username': 'Ronon',
+                                            'password': '123'
+                                         })
+            # self.assertTrue(res.status_code == 409)
+            # self.assertEqual(
+            #     json['message'],
+            #     "that username is taken"
+            # )
 
     def test_successful_login(self):
         ''' Test successful user login '''
