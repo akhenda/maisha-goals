@@ -28,7 +28,11 @@ def new_item(id):
 @api.route('/bucketlists/<int:id>/items/<int:item_id>', methods=['GET'])
 @json
 def get_item(id, item_id):
-    return BucketlistItem.query.get_or_404(id).export_data()
+    item = BucketlistItem.query.filter_by(
+                                    bucketlist_id=id,
+                                    id=item_id
+                                ).first_or_404()
+    return item.export_data()
 
 
 @api.route('/bucketlists/<int:id>/items/<int:item_id>', methods=['PUT'])
