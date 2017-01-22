@@ -13,14 +13,15 @@ class TestAuth(TestBase):
                                         'password': '123'
                                      })
         self.assertEqual(res.status_code, 201)
-        location = res.headers['Location']
-        res, json = self.client.get(location)
-        self.assertEqual(res.status_code, 200)
-        self.assertTrue(json['name'] == 'Rodney')
         self.assertEqual(
             json['message'],
             "Your account has been successfuly created"
         )
+        location = res.headers['Location']
+        res1, json1 = self.client.get(location)
+        self.assertEqual(res1.status_code, 200)
+        self.assertTrue(json1['username'] == 'Rodney')
+        self.assertEqual(json1['self_url'], location)
 
     def test_unsuccessful_registration(self):
         ''' Register a user with a username already in the DB'''
@@ -32,7 +33,7 @@ class TestAuth(TestBase):
         self.assertTrue(res.status_code == 409)
         self.assertEqual(
             json['message'],
-            "The username has been taken. Try another username"
+            "that username is taken"
         )
 
     def test_successful_login(self):
@@ -50,5 +51,5 @@ class TestAuth(TestBase):
                                            .encode('utf-8')).decode('utf-8')
         res, json = self.client.get('/auth/login',
                                     headers={'Authorization': auth_header})
-        self.assertEqual(res.status_code, 403)
-        self.assertIn("Incorrect username or password", json['message'])
+        self.assertEqual(res.status_code, 401)
+        self.assertIn("please authenticate", json['message'])

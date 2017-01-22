@@ -53,7 +53,7 @@ class User(db.Model):
                 self.username = data['username']
                 self.password_hash = generate_password_hash(data['password'])
             else:
-                raise ConflictError('That username is taken.')
+                raise ConflictError('that username is taken')
         except KeyError as e:
             if self.username and 'password' in data:
                 self.password_hash = generate_password_hash(data['password'])
