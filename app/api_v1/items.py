@@ -18,6 +18,7 @@ def get_items(id):
 def new_item(id):
     bucketlist = Bucketlist.query.get_or_404(id)
     item = BucketlistItem(bucketlist=bucketlist)
+    request.json['bucketlist_id'] = id
     item.import_data(request.json)
     db.session.add(item)
     db.session.commit()
