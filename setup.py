@@ -66,5 +66,5 @@ setup(
     ],
     setup_requires=setup_requires,
     tests_require=tests_require,
-    test_suite='tests.alltests',
+    test_suite='tests',
 )
