@@ -113,3 +113,9 @@ class TestBucketlists(TestBase):
         with self.assertRaises(ConflictError):
             self.client.post('/api/v1/bucketlists/',
                              data={"name": "World Domination"})
+
+    def test_search_bucketlist(self):
+        res, json = self.client.get('/api/v1/bucketlists/?q=Dragon')
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(len(json['bucketlists']) > 0)
+        self.assertTrue(json['pages']['total'] == 1)

@@ -14,8 +14,10 @@ def error_util(code, err, msg):
 @paginate('bucketlists')
 def get_bucketlists():
     if request.args.get('q'):
-        return Bucketlist.query.filter_by(
-            created_by=g.user.id, name=request.args.get('q'))
+        return Bucketlist.query.filter(
+            Bucketlist.created_by == g.user.id,
+            Bucketlist.name.ilike('%' + request.args.get('q') + '%')
+        )
     return Bucketlist.query.filter_by(created_by=g.user.id)
 
 
