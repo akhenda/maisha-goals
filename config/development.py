@@ -4,7 +4,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 db_path = os.path.join(basedir, '../app/databases/dev.db')
 
 DEBUG = True
-IGNORE_AUTH = False
+IGNORE_AUTH = True
 SECRET_KEY = 'wzQcp820vrYFE46bj3yL'
 SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
                           'sqlite:///' + db_path
