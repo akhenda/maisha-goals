@@ -103,7 +103,7 @@ class TestBucketlists(TestBase):
         self.assertEqual(res1.status_code, 403)
         self.assertTrue(
             json1['message'],
-            "You do not have permission to access this resource"
+            "you do not have permission to access this resource"
         )
 
         # Attempt to update another user's bucketlist
@@ -115,7 +115,7 @@ class TestBucketlists(TestBase):
         self.assertEqual(res2.status_code, 403)
         self.assertTrue(
             json2['message'],
-            "You do not have permission to edit this resource"
+            "you do not have permission to access this resource"
         )
 
         """ Test deletion of another user's bucketlist """
@@ -123,7 +123,7 @@ class TestBucketlists(TestBase):
         self.assertEqual(res3.status_code, 403)
         self.assertTrue(
             json3['message'],
-            "You do not have permission to delete this resource"
+            "you do not have permission to access this resource"
         )
 
     def test_add_duplicate_bucketlist(self):

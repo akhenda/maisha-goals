@@ -46,6 +46,7 @@ class TestAuth(TestBase):
                                     headers={'Authorization': auth_header})
         self.assertEqual(res.status_code, 200)
         self.assertIn('token', json)
+        self.jacks_token = json['token']
 
     def test_unsuccessful_login(self):
         ''' Test unsuccessful user login with invalid credentials '''
