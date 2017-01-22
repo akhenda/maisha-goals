@@ -40,18 +40,18 @@ tests_require = [
     ]
 
 setup(
-    name=about['__title__'],
-    version=about['__version__'],
-    description=about['__description__'],
+    name='Maisha Goals',
+    version='0.1',
+    description='This is a Flask API implementing the classic bucketlist app.',
     long_description=readme,
-    author=about['__author__'],
-    author_email=about['__email__'],
+    author='Joseph AKhenda',
+    author_email='joseph.akhenda@andela.com',
     url='hhttps://github.com/andela-akhenda/maisha-goals',
     packages=find_packages(exclude=['docs', 'tests']),
     include_package_data=True,
     install_requires=install_reqs,
-    license=about['__license__'],
-    keywords=about['__title__'],
+    license='MIT',
+    keywords='Maisha Goals',
     zip_safe=False,
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',

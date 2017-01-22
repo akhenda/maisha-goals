@@ -21,20 +21,13 @@ def create_app(config_name):
     from .api_v1 import api as api_blueprint
     app.register_blueprint(api_blueprint, url_prefix='/api/v1')
 
-    # register an after request handler
-    def after_request(rv):
-        headers = getattr(g, 'headers', {})
-        rv.headers.extend(headers)
-        return rv
-
     # authentication token route
     from .auth import auth
     from .models import User
 
     @app.route('/', methods=['GET'])
     def index():
-        return '''
-                <!DOCTYPE html>
+        return ''' <!DOCTYPE html>
                 <html lang='en'>
                     <head>
                         <meta charset='utf-8' />
@@ -43,8 +36,7 @@ def create_app(config_name):
                     <body>
                         <h1>Welcome to Maisha Goals</h1>
                     </body>
-                </html>
-            '''
+                </html>'''
 
     @app.route('/api/v1', methods=['GET'])
     @json
