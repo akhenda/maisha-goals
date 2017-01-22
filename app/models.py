@@ -37,6 +37,16 @@ class User(db.Model):
             return None
         return User.query.get(data['id'])
 
+    def get_url(self):
+        return url_for('api.get_user', id=self.id, _external=True)
+
+    def export_data(self):
+        return {
+            'id': self.id,
+            'username': self.name,
+            'self_url': self.get_url()
+        }
+
     def import_data(self, data):
         try:
             if not self.query.filter_by(username=data['username']).count():
@@ -45,7 +55,10 @@ class User(db.Model):
             else:
                 raise ConflictError('That username is taken.')
         except KeyError as e:
-            raise ValidationError('Invalid user: missing ' + e.args[0])
+            if self.username and 'password' in data:
+                self.password_hash = generate_password_hash(data['password'])
+            else:
+                raise ValidationError('Invalid user: missing ' + e.args[0])
         return self
 
 

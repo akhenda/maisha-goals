@@ -17,4 +17,4 @@ def after_request(rv):
     """ All after request operations will be handled here """
     return rv
 
-from . import bucketlists, items, errors
+from . import bucketlists, items, errors, users
