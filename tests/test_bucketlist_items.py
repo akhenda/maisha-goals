@@ -46,8 +46,8 @@ class TestBucketlistItems(TestBase):
         # Get bucket list whose ID is 1
         res, json = self.client.get('/api/v1/bucketlists/1/items/1')
         self.assertEqual(res.status_code, 200)
-        self.assertIn('Ndoo4', json['name'])
-        self.assertTrue(json['description'] == '')
+        self.assertIn('Build a Time Machine', json['name'])
+        self.assertTrue(json['description'] == 'Pay Neil deGrasse a visit')
 
     def test_get_bucketlist_items(self):
         """ Test that all bucketlist items are returned """
