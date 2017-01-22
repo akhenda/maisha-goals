@@ -1,5 +1,5 @@
 from .test_base import TestBase
-from werkzeug.exceptions import NotFound
+from werkzeug.exceptions import NotFound, Forbidden
 from app.exceptions import ConflictError
 
 
@@ -138,38 +138,43 @@ class TestBucketlistItems(TestBase):
     def test_bucketlist_item_operations_on_another_users_bucketlist(self):
         """ Test that users cannot access other users' bucketlist items """
         # Attempt to get another user's bucketlist item
-        res1, json1 = self.client2.get('/api/v1/bucketlists/1/items/')
-        self.assertEqual(res1.status_code, 403)
-        self.assertTrue(
-            json1['message'],
-            "You do not have permission to access this resource"
-        )
+        with self.assertRaises(Forbidden):
+            res1, json1 = self.client2.get('/api/v1/bucketlists/1/items/')
+            self.assertEqual(res1.status_code, 403)
+            self.assertTrue(
+                json1['message'],
+                "You do not have permission to access this resource"
+            )
 
         # Attempt to update another user's bucketlist item
-        res2, json2 = self.client2.put('/api/v1/bucketlists/1/items/1',
-                                       data={
-                                        "name": "ndoo6",
-                                        "description": "desc"
-                                       })
-        self.assertEqual(res2.status_code, 403)
-        self.assertTrue(
-            json2['message'],
-            "You do not have permission to edit this resource"
-        )
+        with self.assertRaises(Forbidden):
+            res2, json2 = self.client2.put('/api/v1/bucketlists/1/items/1',
+                                           data={
+                                            "name": "ndoo6",
+                                            "description": "desc"
+                                           })
+            self.assertEqual(res2.status_code, 403)
+            self.assertTrue(
+                json2['message'],
+                "You do not have permission to edit this resource"
+            )
 
         """ Test deletion of another user's bucketlist item"""
-        res3, json3 = self.client2.delete('/api/v1/bucketlists/1/items/1')
-        self.assertEqual(res3.status_code, 403)
-        self.assertTrue(
-            json3['message'],
-            "You do not have permission to delete this resource"
-        )
+        with self.assertRaises(Forbidden):
+            res3, json3 = self.client2.delete('/api/v1/bucketlists/1/items/1')
+            self.assertEqual(res3.status_code, 403)
+            self.assertTrue(
+                json3['message'],
+                "You do not have permission to delete this resource"
+            )
 
         """ Test creation of an item in another user's bucketlist """
-        res4, json4 = self.client2.post('/api/v1/bucketlists/1/items/')
-        self.assertEqual(res4.status_code, 403)
-        self.assertTrue(
-            json4['message'],
-            "You do not have permission to add an item to another user's \
-            bucketlist"
-        )
+        with self.assertRaises(Forbidden):
+            res4, json4 = self.client2.post('/api/v1/bucketlists/1/items/',
+                                            data={"name": "New Item 123"})
+            self.assertEqual(res4.status_code, 403)
+            self.assertTrue(
+                json4['message'],
+                "You do not have permission to add an item to another user's \
+                bucketlist"
+            )
