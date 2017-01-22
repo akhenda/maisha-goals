@@ -5,7 +5,7 @@ Credits
 Development Lead
 ----------------
 
-* Joseph AKhenda
+* Joseph Akhenda
 
 Contributors
 ------------
