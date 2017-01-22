@@ -30,6 +30,15 @@ if sys.argv[-1] == 'info':
 
 readme = open('README.md').read()
 
+setup_requires = [
+    'pytest-runner'
+    ]
+
+tests_require = [
+    'pytest-cov',
+    'pytest'
+    ]
+
 setup(
     name=about['__title__'],
     version=about['__version__'],
@@ -38,10 +47,9 @@ setup(
     author=about['__author__'],
     author_email=about['__email__'],
     url='hhttps://github.com/andela-akhenda/maisha-goals',
-    packages=find_packages(exclude=['docs']),
+    packages=find_packages(exclude=['docs', 'tests']),
     include_package_data=True,
     install_requires=install_reqs,
-    tests_require=tests_reqs,
     license=about['__license__'],
     keywords=about['__title__'],
     zip_safe=False,
@@ -56,5 +64,7 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
     ],
+    setup_requires=setup_requires,
+    tests_require=tests_require,
     test_suite='tests.alltests',
 )
