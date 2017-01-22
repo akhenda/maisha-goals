@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, jsonify, g
+from flask import Flask, request, g
 from flask_sqlalchemy import SQLAlchemy
 from .decorators import json
 

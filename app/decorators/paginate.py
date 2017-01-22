@@ -21,13 +21,17 @@ def paginate(collection, max_per_page=20):
 
             # obtain pagination arguments from the URL's query string
             page = request.args.get('page', 1, type=int)
-            if request.args and (not request.args.get('limit') and not request.args.get('q') and not request.args.get('expanded') and not request.args.get('page')):
+            if request.args and (not request.args.get('limit') and
+                                 not request.args.get('q') and
+                                 not request.args.get('expanded') and
+                                 not request.args.get('page')):
                 raise ValidationError('invalid query parameter')
             elif request.args.get('limit'):
                 try:
                     limit = int(request.args.get('limit'))
                 except:
-                    raise ValidationError('limit query parameter only accepts integers')
+                    raise ValidationError(
+                        'limit query parameter only accepts integers')
             limit = min(request.args.get('limit', max_per_page,
                                          type=int), max_per_page)
             expanded = 1

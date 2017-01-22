@@ -1,4 +1,4 @@
-from flask import g, request
+from flask import request
 from . import api
 from .. import db
 from ..models import User

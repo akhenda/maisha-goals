@@ -1,12 +1,9 @@
 from datetime import datetime
-from dateutil import parser as datetime_parser
-from dateutil.tz import tzutc
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import g, url_for, current_app
 from . import db
 from .exceptions import ValidationError, ConflictError
-from .utils import split_url
 
 
 class User(db.Model):

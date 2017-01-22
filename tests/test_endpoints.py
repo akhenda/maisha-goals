@@ -1,6 +1,6 @@
 from .test_base import TestBase
-from werkzeug.exceptions import Unauthorized, NotFound, MethodNotAllowed
-from app.exceptions import ConflictError, ValidationError
+from werkzeug.exceptions import NotFound, MethodNotAllowed
+from app.exceptions import ValidationError
 
 
 class TestEndpoints(TestBase):

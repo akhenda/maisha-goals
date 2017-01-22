@@ -94,7 +94,7 @@ class TestBase(TestCase):
                             description="Pay Neil deGrasse a visit",
                             bucketlist_id=1)
         i2 = BucketlistItem(name="Dragon Ball Detector",
-                            description="Borrow the Dragon Ball Radar from Bulma",
+                            description="Borrow Dragon Ball Radar from Bulma",
                             bucketlist_id=2)
         db.session.add(u1)
         db.session.add(u2)
