@@ -31,7 +31,7 @@ def edit_user(id):
     user.import_data(request.json)
     db.session.add(user)
     db.session.commit()
-    return {}
+    return {"message": "User successfuly updated"}
 
 
 @api.route('/users/<int:id>', methods=['DELETE'])
@@ -40,4 +40,4 @@ def delete_user(id):
     user = User.query.get_or_404(id)
     db.session.delete(user)
     db.session.commit()
-    return {}
+    return {"message": "User successfuly deleted"}

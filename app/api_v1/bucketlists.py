@@ -34,7 +34,9 @@ def new_bucketlist():
     bucketlist.import_data(request.json)
     db.session.add(bucketlist)
     db.session.commit()
-    return {}, 201, {'Location': bucketlist.get_url()}
+    return {
+        "message": "Bucketlist successfuly created"
+    }, 201, {'Location': bucketlist.get_url()}
 
 
 @api.route('/bucketlists/<int:id>', methods=['PUT'])
@@ -50,7 +52,7 @@ def edit_bucketlist(id):
     bucketlist.import_data(request.json)
     db.session.add(bucketlist)
     db.session.commit()
-    return {}
+    return {"message": "Bucketlist successfuly updated"}
 
 
 @api.route('/bucketlists/<int:id>', methods=['DELETE'])
@@ -59,4 +61,4 @@ def delete_bucketlist(id):
     bucketlist = Bucketlist.query.get_or_404(id)
     db.session.delete(bucketlist)
     db.session.commit()
-    return {}
+    return {"message": "Bucketlist successfuly deleted"}
