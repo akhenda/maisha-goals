@@ -23,6 +23,12 @@ def get_bucketlist(id):
 def new_bucketlist():
     user = User.query.get_or_404(g.user.id)
     bucketlist = Bucketlist(created_by=user.id)
+    if not request.json:
+        return {
+            'status': 400,
+            'error': 'bad request',
+            'message': 'you did not send any data',
+        }, 400, {}
     bucketlist.import_data(request.json)
     db.session.add(bucketlist)
     db.session.commit()
@@ -33,6 +39,12 @@ def new_bucketlist():
 @json
 def edit_bucketlist(id):
     bucketlist = Bucketlist.query.get_or_404(id)
+    if not request.json:
+        return {
+            'status': 400,
+            'error': 'bad request',
+            'message': 'you did not send any data',
+        }, 400, {}
     bucketlist.import_data(request.json)
     db.session.add(bucketlist)
     db.session.commit()
