@@ -27,16 +27,11 @@ class TestAuth(TestBase):
     def test_unsuccessful_registration(self):
         ''' Register a user with a username already in the DB'''
         with self.assertRaises(ConflictError):
-            res, json = self.client.post('/auth/register',
-                                         data={
-                                            'username': 'Ronon',
-                                            'password': '123'
-                                         })
-            # self.assertTrue(res.status_code == 409)
-            # self.assertEqual(
-            #     json['message'],
-            #     "that username is taken"
-            # )
+            self.client.post('/auth/register',
+                             data={
+                                'username': 'Ronon',
+                                'password': '123'
+                             })
 
     def test_successful_login(self):
         ''' Test successful user login '''

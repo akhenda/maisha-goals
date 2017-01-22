@@ -67,34 +67,16 @@ class TestBucketlists(TestBase):
         Tests to cover all invalid bucketlists scenarios
         """
         with self.assertRaises(NotFound):
-            res1, json1 = self.client.get('/api/v1/bucketlists/233')
-            self.assertEqual(res1.status_code, 404)
-            self.assertTrue(
-                json1['message'],
-                "The requested bucketlist does not exist"
-            )
+            self.client.get('/api/v1/bucketlists/233')
 
         """ Test editing a bucketlists that doesn't exist """
         with self.assertRaises(NotFound):
-            res2, json2 = self.client.put('/api/v1/bucketlists/221',
-                                          data={
-                                            "name": "ndoo5",
-                                            "description": "no desc"
-                                          })
-            self.assertEqual(res2.status_code, 404)
-            self.assertTrue(
-                json['message'],
-                "Cannot edit a bucketlist that does not exist"
-            )
+            self.client.put('/api/v1/bucketlists/221',
+                            data={"name": "ndoo5", "description": "no desc"})
 
         """ Test deletion of a bucketlist """
         with self.assertRaises(NotFound):
-            res3, json3 = self.client.delete('/api/v1/bucketlists/221')
-            self.assertEqual(res3.status_code, 404)
-            self.assertTrue(
-                json3['message'],
-                "Cannot delete a bucketlist that does not exist"
-            )
+            self.client.delete('/api/v1/bucketlists/221')
 
     def test_operation_on_another_user_bucketlist(self):
         """ Test that users cannot access other users' bucketlists """
@@ -129,12 +111,5 @@ class TestBucketlists(TestBase):
     def test_add_duplicate_bucketlist(self):
         """ Test creation of a bucketlist with an existing name """
         with self.assertRaises(ConflictError):
-            res, json = self.client.post('/api/v1/bucketlists/',
-                                         data={
-                                            "name": "World Domination"
-                                         })
-            self.assertEqual(res.status_code, 409)
-            self.assertTrue(
-                json['message'],
-                "You already have a bucketlist with that name"
-            )
+            self.client.post('/api/v1/bucketlists/',
+                             data={"name": "World Domination"})
