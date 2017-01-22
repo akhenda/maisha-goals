@@ -6,10 +6,6 @@ from app.exceptions import ValidationError
 class TestEndpoints(TestBase):
     """ Test the API endpoints """
 
-    def test_index(self):
-        res = self.client.get('/')
-        self.assertEqual(res.status_code, 200)
-
     def test_api_index(self):
         res, json = self.client.get('/api/v1')
         self.assertEqual(res.status_code, 200)
