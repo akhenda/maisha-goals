@@ -97,7 +97,11 @@ class Bucketlist(db.Model):
                     'You already have a bucketlist with that name.'
                 )
         except KeyError as e:
-            raise ValidationError('Invalid bucketlist: missing ' + e.args[0])
+            if self.name and 'description' in data:
+                self.description = data['description']
+            else:
+                raise ValidationError(
+                        'Invalid bucketlist: missing ' + e.args[0])
         return self
 
 
@@ -108,12 +112,8 @@ class BucketlistItem(db.Model):
     name = db.Column(db.String(64))
     description = db.Column(db.Text)
     bucketlist_id = db.Column(db.Integer, db.ForeignKey('bucketlists.id'))
-    # created_by = db.Column(db.Integer, db.ForeignKey('users.id'))
     date_created = db.Column(db.DateTime, default=datetime.now)
     date_modified = db.Column(db.DateTime, onupdate=datetime.now)
-    # user = db.relationship('User',
-    #                        backref=db.backref('bucketlistitems',
-    #                                           lazy='dynamic'))
     done = db.Column(db.Boolean, default=False)
 
     def get_url(self):
@@ -137,9 +137,6 @@ class BucketlistItem(db.Model):
 
     def import_data(self, data):
         try:
-            # self.name = data['name']
-            # if 'description' in data:
-            #     self.description = data['description']
             if not self.query.filter_by(name=data['name']) \
                              .filter_by(
                                 bucketlist_id=data['bucketlist_id']
@@ -150,10 +147,18 @@ class BucketlistItem(db.Model):
                     raise ValidationError('name is empty')
                 if 'description' in data:
                     self.description = data['description']
+                if 'done' in data:
+                    self.done = data['done']
             else:
                 raise ConflictError(
                     'You already have an item with that name.'
                 )
         except KeyError as e:
-            raise ValidationError('Invalid item: missing ' + e.args[0])
+            if self.name:
+                if 'description' in data:
+                    self.description = data['description']
+                if 'done' in data:
+                    self.done = data['done']
+            else:
+                raise ValidationError('Invalid item: missing ' + e.args[0])
         return self
