@@ -43,7 +43,7 @@ class User(db.Model):
     def export_data(self):
         return {
             'id': self.id,
-            'username': self.name,
+            'username': self.username,
             'self_url': self.get_url()
         }
 
