@@ -1,4 +1,5 @@
 from .test_base import TestBase
+from werkzeug.exceptions import NotFound
 
 
 class TestBucketlistItems(TestBase):
@@ -11,10 +12,14 @@ class TestBucketlistItems(TestBase):
         self.assertEqual(res.status_code, 201)
         self.assertTrue(
             json['message'],
-            "Your bucketlist item was successfuly created"
+            "Bucketlist item successfuly created"
         )
-        self.assertIn('Prepare', json['name'])
-        self.assertTrue(json['description'] == '')
+        location = res.headers['Location']
+        res1, json1 = self.client.get(location)
+        self.assertEqual(res1.status_code, 200)
+        self.assertIn('Prepare', json1['name'])
+        self.assertEqual(json1['self_url'], location)
+        self.assertTrue(not json1['description'])
 
     def test_update_bucketlist_item(self):
         """ Test for updating an item """
@@ -23,10 +28,8 @@ class TestBucketlistItems(TestBase):
         self.assertEqual(res.status_code, 200)
         self.assertTrue(
             json['message'],
-            "Your bucketlist item was successfuly updated"
+            "Bucketlist item successfuly updated"
         )
-        self.assertIn('Edited', json['name'])
-        self.assertTrue(json['description'] == '')
 
     def test_delete_bucketlist_item(self):
         """ Test deletion of a bucketlist item """
@@ -54,32 +57,35 @@ class TestBucketlistItems(TestBase):
         """
         Tests to cover all invalid bucketlist items scenarios
         """
-        res1, json1 = self.client.get('/api/v1/bucketlists/1/items/233')
-        self.assertEqual(res1.status_code, 404)
-        self.assertTrue(
-            json1['message'],
-            "The requested bucketlist item does not exist"
-        )
+        with self.assertRaises(NotFound):
+            res1, json1 = self.client.get('/api/v1/bucketlists/1/items/233')
+            self.assertEqual(res1.status_code, 404)
+            self.assertTrue(
+                json1['message'],
+                "The requested bucketlist item does not exist"
+            )
 
         """ Test editing a bucketlist item that doesn't exist """
-        res2, json2 = self.client.put('/api/v1/bucketlists/1/items/221',
-                                      data={
-                                        "name": "ndoo5",
-                                        "description": "no desc"
-                                      })
-        self.assertEqual(res2.status_code, 404)
-        self.assertTrue(
-            json['message'],
-            "Cannot edit a bucketlist item that does not exist"
-        )
+        with self.assertRaises(NotFound):
+            res2, json2 = self.client.put('/api/v1/bucketlists/1/items/221',
+                                          data={
+                                            "name": "ndoo5",
+                                            "description": "no desc"
+                                          })
+            self.assertEqual(res2.status_code, 404)
+            self.assertTrue(
+                json['message'],
+                "Cannot edit a bucketlist item that does not exist"
+            )
 
         """ Test deletion of a bucketlist item that does not exist """
-        res3, json3 = self.client.put('/api/v1/bucketlists/1/items/221')
-        self.assertEqual(res3.status_code, 404)
-        self.assertTrue(
-            json3['message'],
-            "Cannot delete a bucketlist item that does not exist"
-        )
+        with self.assertRaises(NotFound):
+            res3, json3 = self.client.delete('/api/v1/bucketlists/1/items/221')
+            self.assertEqual(res3.status_code, 404)
+            self.assertTrue(
+                json3['message'],
+                "Cannot delete a bucketlist item that does not exist"
+            )
 
     def test_add_duplicate_bucketlist_item(self):
         """ Test creation of a bucketlist item with an existing name """
@@ -97,32 +103,35 @@ class TestBucketlistItems(TestBase):
         """
         Tests to cover all invalid bucketlists scenarios
         """
-        res1, json1 = self.client.get('/api/v1/bucketlists/198/items/1')
-        self.assertEqual(res1.status_code, 404)
-        self.assertTrue(
-            json1['message'],
-            "The bucketlist does not exist"
-        )
+        with self.assertRaises(NotFound):
+            res1, json1 = self.client.get('/api/v1/bucketlists/198/items/1')
+            self.assertEqual(res1.status_code, 404)
+            self.assertTrue(
+                json1['message'],
+                "The bucketlist does not exist"
+            )
 
         """ Test editing a bucketlist that doesn't exist """
-        res2, json2 = self.client.put('/api/v1/bucketlists/456/items/1',
-                                      data={
-                                        "name": "ndoo5",
-                                        "description": "no desc"
-                                      })
-        self.assertEqual(res2.status_code, 404)
-        self.assertTrue(
-            json['message'],
-            "Cannot edit a bucketlist that does not exist"
-        )
+        with self.assertRaises(NotFound):
+            res2, json2 = self.client.put('/api/v1/bucketlists/456/items/1',
+                                          data={
+                                            "name": "ndoo5",
+                                            "description": "no desc"
+                                          })
+            self.assertEqual(res2.status_code, 404)
+            self.assertTrue(
+                json['message'],
+                "Cannot edit a bucketlist that does not exist"
+            )
 
         """ Test deletion of a bucketlist that does not exist """
-        res3, json3 = self.client.put('/api/v1/bucketlists/61/items/1')
-        self.assertEqual(res3.status_code, 404)
-        self.assertTrue(
-            json3['message'],
-            "Cannot delete a bucketlist that does not exist"
-        )
+        with self.assertRaises(NotFound):
+            res3, json3 = self.client.delete('/api/v1/bucketlists/61/items/1')
+            self.assertEqual(res3.status_code, 404)
+            self.assertTrue(
+                json3['message'],
+                "Cannot delete a bucketlist that does not exist"
+            )
 
     def test_bucketlist_item_operations_on_another_users_bucketlist(self):
         """ Test that users cannot access other users' bucketlist items """
