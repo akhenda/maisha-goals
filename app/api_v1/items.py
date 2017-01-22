@@ -1,14 +1,21 @@
-from flask import g, request
+from flask import g, request, abort
 from . import api
 from .. import db
 from ..models import User, Bucketlist, BucketlistItem
 from ..decorators import json, paginate
 
 
+def check_permissions(id):
+    bucketlist = Bucketlist.query.get_or_404(id).export_data()
+    if bucketlist['created_by'] != g.user.id:
+        abort(403)
+
+
 @api.route('/bucketlists/<int:id>/items/', methods=['GET'])
 @json
 @paginate('items')
 def get_items(id):
+    check_permissions(id)
     bucketlist = Bucketlist.query.get_or_404(id)
     return bucketlist.items
 
@@ -16,6 +23,7 @@ def get_items(id):
 @api.route('/bucketlists/<int:id>/items/', methods=['POST'])
 @json
 def new_item(id):
+    check_permissions(id)
     bucketlist = Bucketlist.query.get_or_404(id)
     item = BucketlistItem(bucketlist=bucketlist)
     if not request.json:
@@ -36,6 +44,7 @@ def new_item(id):
 @api.route('/bucketlists/<int:id>/items/<int:item_id>', methods=['GET'])
 @json
 def get_item(id, item_id):
+    check_permissions(id)
     item = BucketlistItem.query.filter_by(
                                     bucketlist_id=id,
                                     id=item_id
@@ -46,9 +55,7 @@ def get_item(id, item_id):
 @api.route('/bucketlists/<int:id>/items/<int:item_id>', methods=['PUT'])
 @json
 def edit_item(id, item_id):
-    # we'll handle the accessing unauthorized access here i.e.
-    # if id != g.user.id
-    # user = User.query.get_or_404(id)
+    check_permissions(id)
     item = BucketlistItem.query.filter_by(
                                     bucketlist_id=id,
                                     id=item_id
@@ -69,6 +76,7 @@ def edit_item(id, item_id):
 @api.route('/bucketlists/<int:id>/items/<int:item_id>', methods=['DELETE'])
 @json
 def delete_item(id, item_id):
+    check_permissions(id)
     item = BucketlistItem.query.filter_by(
                                     bucketlist_id=id,
                                     id=item_id
