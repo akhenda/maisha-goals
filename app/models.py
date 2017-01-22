@@ -72,7 +72,8 @@ class Bucketlist(db.Model):
             'id': self.id,
             'name': self.name,
             'description': self.description,
-            'items': [item.export_data() for item in items],
+            # change to export_data() if data of individual items is preferred
+            'items': [item.get_url() for item in items],
             'date_created': self.date_created,
             'date_modified': self.date_modified,
             'created_by': self.created_by,
