@@ -38,7 +38,7 @@ def create_app(config_name):
         u.import_data(request.json)
         db.session.add(u)
         db.session.commit()
-        return {'message': 'The user has been created successfully'}, 201, {}
+        return {'message': 'Your account has been successfuly created'}, 201, {}
 
     @app.route('/auth/login')
     @auth.login_required

@@ -92,11 +92,9 @@ class TestBase(TestCase):
                         created_by=1)
         i1 = BucketlistItem(name="Build a Time Machine",
                             description="Pay Neil deGrasse a visit",
-                            created_by=1,
                             bucketlist_id=1)
         i2 = BucketlistItem(name="Dragon Ball Detector",
                             description="Borrow the Dragon Ball Radar from Bulma",
-                            created_by=1,
                             bucketlist_id=2)
         db.session.add(u1)
         db.session.add(u2)
