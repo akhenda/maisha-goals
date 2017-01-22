@@ -7,9 +7,6 @@ try:
 except ImportError:
     from distutils.core import setup, find_packages
 
-about = {}
-with open("app/__about__.py") as f:
-    exec(f.read(), about)
 
 with open('requirements.txt') as fl:
     install_reqs = [line for line in fl.read().split('\n') if line]
@@ -23,10 +20,6 @@ if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')
     sys.exit()
 
-if sys.argv[-1] == 'info':
-    for k, v in about.items():
-        print('%s: %s' % (k, v))
-    sys.exit()
 
 readme = open('README.md').read()
 
