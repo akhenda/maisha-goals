@@ -1,4 +1,7 @@
-import unittest
+try:
+    import unittest2 as unittest
+except ImportError:  # Python 2.7
+    import unittest
 from .test_auth import TestAuth
 from .test_users import TestUsers
 from .test_endpoints import TestEndpoints
