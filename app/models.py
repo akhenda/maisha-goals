@@ -86,7 +86,10 @@ class Bucketlist(db.Model):
         try:
             if not self.query.filter_by(name=data['name']) \
                              .filter_by(created_by=g.user.id).count():
-                self.name = data['name']
+                if len(data['name']) != 0:
+                    self.name = data['name']
+                else:
+                    raise ValidationError('name is empty')
                 if 'description' in data:
                     self.description = data['description']
             else:
@@ -140,7 +143,10 @@ class BucketlistItem(db.Model):
                              .filter_by(
                                 bucketlist_id=data['bucketlist_id']
                              ).count():
-                self.name = data['name']
+                if len(data['name']) != 0:
+                    self.name = data['name']
+                else:
+                    raise ValidationError('name is empty')
                 if 'description' in data:
                     self.description = data['description']
             else:
