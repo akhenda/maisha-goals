@@ -128,6 +128,7 @@ class BucketlistItem(db.Model):
         return {
             'id': self.id,
             'name': self.name,
+            'description': self.description,
             'date_created': self.date_created,
             'date_modified': self.date_modified,
             'done': self.done,
