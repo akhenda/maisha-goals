@@ -25,19 +25,6 @@ def create_app(config_name):
     from .auth import auth
     from .models import User
 
-    @app.route('/', methods=['GET'])
-    def index():
-        return ''' <!DOCTYPE html>
-                <html lang='en'>
-                    <head>
-                        <meta charset='utf-8' />
-                        <title>Maisha Goals</title>
-                    </head>
-                    <body>
-                        <h1>Welcome to Maisha Goals</h1>
-                    </body>
-                </html>'''
-
     @app.route('/api/v1', methods=['GET'])
     @json
     def api_index():
