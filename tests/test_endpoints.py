@@ -90,9 +90,15 @@ class TestEndpoints(TestBase):
             self.client.delete('/api/v1/bucketlists/2/items/')
 
     def test_malformed_post_and_put_requests(self):
-        with self.assertRaises(ValidationError):
-            self.client.post('/api/v1/bucketlists/',
-                             data={'title': 'New BList item'})
+        # with self.assertRaises(ValidationError):
+        res, json = self.client.post('/api/v1/bucketlists/',
+                                     data={'title': 'New BList item'})
+        print(dir(res))
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(
+            json['message'],
+            "Invalid bucketlist: missing name"
+        )
         with self.assertRaises(ValidationError):
             self.client.put('/api/v1/bucketlists/1',
                             data={'title': 'Updated BList'})
