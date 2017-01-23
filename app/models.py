@@ -50,12 +50,12 @@ class User(db.Model):
                 self.username = data['username']
                 self.password_hash = generate_password_hash(data['password'])
             else:
-                raise ConflictError('that username is taken')
+                return ConflictError('that username is taken')
         except KeyError as e:
             if self.username and 'password' in data:
                 self.password_hash = generate_password_hash(data['password'])
             else:
-                raise ValidationError('Invalid user: missing ' + e.args[0])
+                return ValidationError('Invalid user: missing ' + e.args[0])
         return self
 
 
@@ -99,18 +99,18 @@ class Bucketlist(db.Model):
                 if len(data['name']) != 0:
                     self.name = data['name']
                 else:
-                    raise ValidationError('name is empty')
+                    return ValidationError('name is empty')
                 if 'description' in data:
                     self.description = data['description']
             else:
-                raise ConflictError(
+                return ConflictError(
                     'You already have a bucketlist with that name.'
                 )
         except KeyError as e:
             if self.name and 'description' in data:
                 self.description = data['description']
             else:
-                raise ValidationError(
+                return ValidationError(
                         'Invalid bucketlist: missing ' + e.args[0])
         return self
 
@@ -154,13 +154,13 @@ class BucketlistItem(db.Model):
                 if len(data['name']) != 0:
                     self.name = data['name']
                 else:
-                    raise ValidationError('name is empty')
+                    return ValidationError('name is empty')
                 if 'description' in data:
                     self.description = data['description']
                 if 'done' in data:
                     self.done = data['done']
             else:
-                raise ConflictError(
+                return ConflictError(
                     'You already have an item with that name.'
                 )
         except KeyError as e:
@@ -170,5 +170,5 @@ class BucketlistItem(db.Model):
                 if 'done' in data:
                     self.done = data['done']
             else:
-                raise ValidationError('Invalid item: missing ' + e.args[0])
+                return ValidationError('Invalid item: missing ' + e.args[0])
         return self
