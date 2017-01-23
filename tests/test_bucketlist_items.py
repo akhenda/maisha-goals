@@ -1,6 +1,6 @@
 from .test_base import TestBase
 from werkzeug.exceptions import NotFound, Forbidden
-from app.exceptions import ConflictError
+from app.exceptions import ConflictError, ValidationError
 
 
 class TestBucketlistItems(TestBase):
@@ -9,7 +9,11 @@ class TestBucketlistItems(TestBase):
     def test_add_bucketlist_item(self):
         """ Test for new item creation """
         res, json = self.client.post('/api/v1/bucketlists/1/items/',
-                                     data={'name': 'Prepare for launch'})
+                                     data={
+                                        'name': 'Prepare for launch',
+                                        'description': 'check FTL engine',
+                                        'done': 1
+                                     })
         self.assertEqual(res.status_code, 201)
         self.assertTrue(
             json['message'],
@@ -20,15 +24,32 @@ class TestBucketlistItems(TestBase):
         self.assertEqual(res1.status_code, 200)
         self.assertIn('Prepare', json1['name'])
         self.assertEqual(json1['self_url'], location)
-        self.assertTrue(not json1['description'])
+        self.assertTrue(json1['description'] == 'check FTL engine')
+
+    def test_add_bucketlist_item_with_empty_name_string_or_no_name(self):
+        with self.assertRaises(ValidationError):
+            self.client.post('/api/v1/bucketlists/1/items/', data={'name': ''})
+        with self.assertRaises(ValidationError):
+            self.client.post('/api/v1/bucketlists/1/items/', data={'pass': ''})
 
     def test_update_bucketlist_item(self):
         """ Test for updating an item """
         res, json = self.client.put('/api/v1/bucketlists/1/items/1',
-                                    data={"name": "Edited item name"})
+                                    data={"name": "Edited blist item name"})
         self.assertEqual(res.status_code, 200)
         self.assertTrue(
             json['message'],
+            "Bucketlist item successfuly updated"
+        )
+
+        res1, json1 = self.client.put('/api/v1/bucketlists/1/items/1',
+                                      data={
+                                        'description': 'Edited item desc',
+                                        'done': 1
+                                      })
+        self.assertEqual(res1.status_code, 200)
+        self.assertTrue(
+            json1['message'],
             "Bucketlist item successfuly updated"
         )
 

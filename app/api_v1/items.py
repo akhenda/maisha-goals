@@ -26,12 +26,6 @@ def new_item(id):
     check_permissions(id)
     bucketlist = Bucketlist.query.get_or_404(id)
     item = BucketlistItem(bucketlist=bucketlist)
-    if not request.json:
-        return {
-            'status': 400,
-            'error': 'bad request',
-            'message': 'you did not send any data',
-        }, 400, {}
     request.json['bucketlist_id'] = id
     item.import_data(request.json)
     db.session.add(item)
@@ -60,12 +54,6 @@ def edit_item(id, item_id):
                                     bucketlist_id=id,
                                     id=item_id
                                 ).first_or_404()
-    if not request.json:
-        return {
-            'status': 400,
-            'error': 'bad request',
-            'message': 'you did not send any data',
-        }, 400, {}
     request.json['bucketlist_id'] = id
     item.import_data(request.json)
     db.session.add(item)

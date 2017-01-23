@@ -1,6 +1,6 @@
 from .test_base import TestBase
 from werkzeug.exceptions import NotFound
-from app.exceptions import ConflictError
+from app.exceptions import ConflictError, ValidationError
 
 
 class TestBucketlists(TestBase):
@@ -8,7 +8,10 @@ class TestBucketlists(TestBase):
 
     def test_add_bucketlist(self):
         res, json = self.client.post('/api/v1/bucketlists/',
-                                     data={'name': 'Mars'})
+                                     data={
+                                        'name': 'Mars',
+                                        'description': 'the red planet'
+                                     })
         self.assertEqual(res.status_code, 201)
         self.assertTrue(
             json['message'],
@@ -19,15 +22,32 @@ class TestBucketlists(TestBase):
         self.assertEqual(res1.status_code, 200)
         self.assertTrue(json1['name'] == 'Mars')
         self.assertEqual(json1['self_url'], location)
-        self.assertTrue(not json1['description'])
+        self.assertTrue(json1['description'] == 'the red planet')
+
+    def test_add_bucketlist_with_empty_name_string(self):
+        with self.assertRaises(ValidationError):
+            self.client.post('/api/v1/bucketlists/', data={'name': ''})
 
     def test_update_bucketlist(self):
         """ Test editing of bucket lists """
         res, json = self.client.put('/api/v1/bucketlists/2',
-                                    data={"name": "Ndoo4"})
+                                    data={
+                                        'name': 'Dark Matter',
+                                        'description': 'Season 4'
+                                    })
         self.assertEqual(res.status_code, 200)
         self.assertTrue(
             json['message'],
+            "Bucketlist successfuly updated"
+        )
+
+        res1, json1 = self.client.put('/api/v1/bucketlists/2',
+                                      data={
+                                        'description': 'Editing item desc'
+                                      })
+        self.assertEqual(res1.status_code, 200)
+        self.assertTrue(
+            json1['message'],
             "Bucketlist successfuly updated"
         )
 
@@ -119,3 +139,19 @@ class TestBucketlists(TestBase):
         self.assertEqual(res.status_code, 200)
         self.assertTrue(len(json['bucketlists']) > 0)
         self.assertTrue(json['pages']['total'] == 1)
+
+    def test_bucketlists_pagination(self):
+        res, json = self.client.get('/api/v1/bucketlists/?limit=1')
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(len(json['bucketlists']) == 1)
+        self.assertIn(
+            'page=2',
+            json['pages']['next_url'],
+        )
+        res1, json1 = self.client.get('/api/v1/bucketlists/?limit=1&page=2')
+        self.assertEqual(res1.status_code, 200)
+        self.assertTrue(len(json1['bucketlists']) == 1)
+        self.assertIn(
+            'limit=1',
+            json1['pages']['prev_url'],
+        )

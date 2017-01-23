@@ -35,8 +35,6 @@ def paginate(collection, max_per_page=20):
             limit = min(request.args.get('limit', max_per_page,
                                          type=int), max_per_page)
             expanded = 1
-            if request.args.get('expanded', 0, type=int) != 0:
-                expanded = 1
 
             # run the query with Flask-SQLAlchemy's pagination
             p = query.paginate(page, limit)
@@ -68,8 +66,6 @@ def paginate(collection, max_per_page=20):
             # generate the paginated collection as a dictionary
             if expanded:
                 results = [item.export_data() for item in p.items]
-            else:
-                results = [item.get_url() for item in p.items]
 
             # return a dictionary as a response
             return {collection: results, 'pages': pages}

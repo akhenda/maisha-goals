@@ -22,12 +22,6 @@ def get_user(id):
 @json
 def edit_user(id):
     user = User.query.get_or_404(id)
-    if not request.json:
-        return {
-            'status': 400,
-            'error': 'bad request',
-            'message': 'you did not send any data',
-        }, 400, {}
     user.import_data(request.json)
     db.session.add(user)
     db.session.commit()

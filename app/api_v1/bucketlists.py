@@ -39,8 +39,6 @@ def get_bucketlist(id):
 def new_bucketlist():
     user = User.query.get_or_404(g.user.id)
     bucketlist = Bucketlist(created_by=user.id)
-    if not request.json:
-        return error_util(400, 'bad request', 'you did not send any data')
     bucketlist.import_data(request.json)
     db.session.add(bucketlist)
     db.session.commit()
@@ -60,8 +58,6 @@ def edit_bucketlist(id):
             'you do not have permission to edit this resource'
         )
     bucketlist = Bucketlist.query.get_or_404(id)
-    if not request.json:
-        return error_util(400, 'bad request', 'you did not send any data')
     bucketlist.import_data(request.json)
     db.session.add(bucketlist)
     db.session.commit()

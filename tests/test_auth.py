@@ -1,6 +1,6 @@
 from .test_base import TestBase
 from base64 import b64encode
-from app.exceptions import ConflictError
+from app.exceptions import ConflictError, ValidationError
 
 
 class TestAuth(TestBase):
@@ -23,6 +23,19 @@ class TestAuth(TestBase):
         self.assertEqual(res1.status_code, 200)
         self.assertTrue(json1['username'] == 'Rodney')
         self.assertEqual(json1['self_url'], location)
+
+        with self.assertRaises(ValidationError):
+            self.client.post('/auth/register',
+                             data={
+                                'username': 'Carter'
+                             })
+
+    def test_registration_wwithout_password(self):
+        with self.assertRaises(ValidationError):
+            self.client.post('/auth/register',
+                             data={
+                                'username': 'Carter'
+                             })
 
     def test_unsuccessful_registration(self):
         ''' Register a user with a username already in the DB'''
