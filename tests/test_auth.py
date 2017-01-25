@@ -1,4 +1,4 @@
-from tests.test_base import TestBase
+from .test_base import TestBase
 from base64 import b64encode
 from app.exceptions import ConflictError, ValidationError
 

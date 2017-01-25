@@ -1,4 +1,4 @@
-from unittest import TestCase
+from flask_testing import TestCase
 from base64 import b64encode
 import json
 from urllib.parse import urlsplit, urlunsplit

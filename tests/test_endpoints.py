@@ -1,4 +1,4 @@
-from tests.test_base import TestBase
+from .test_base import TestBase
 from werkzeug.exceptions import NotFound, MethodNotAllowed
 from app.exceptions import ValidationError
 
