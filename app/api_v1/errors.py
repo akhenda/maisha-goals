@@ -19,6 +19,15 @@ def bad_request(e):
     return res
 
 
+@api.app_errorhandler(403)
+def forbidden(e):
+    res = jsonify({'status': 403, 'error': 'forbidden',
+                  'message': 'you do not have the permission to access '
+                   'the requested resource'})
+    res.status_code = 403
+    return res
+
+
 @api.app_errorhandler(404)
 def not_found(e):
     res = jsonify({'status': 404, 'error': 'not found',

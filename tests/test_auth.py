@@ -24,6 +24,13 @@ class TestAuth(TestBase):
         self.assertTrue(json1['username'] == 'Rodney')
         self.assertEqual(json1['self_url'], location)
 
+    def test_registration_wwithout_password(self):
+        with self.assertRaises(ValidationError):
+            self.client.post('/auth/register',
+                             data={
+                                'username': 'Carter'
+                             })
+
     def test_unsuccessful_registration(self):
         ''' Register a user with a username already in the DB'''
         with self.assertRaises(ConflictError):
@@ -32,15 +39,6 @@ class TestAuth(TestBase):
                                 'username': 'Ronon',
                                 'password': '123'
                              })
-
-        res2, json2 = self.client.post('/auth/register',
-                                       data={
-                                            'username': 'Carter'
-                                       })
-        self.assertRaises(ValidationError, res2)
-        self.assertEqual(res2.status_code, 400)
-        self.assertTrue(json1['error'] == 'bad request')
-        self.assertEqual(json1['message'], "Invalid user: missing password")
 
     def test_successful_login(self):
         ''' Test successful user login '''

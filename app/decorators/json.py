@@ -17,8 +17,8 @@ def json(f):
         headers = None
         if isinstance(rv, tuple):
             rv, status, headers = rv + (None,) * (3 - len(rv))
-        if isinstance(status, (dict, list)):
-            headers, status = status, None
+        # if isinstance(status, (dict, list)):
+        #     headers, status = status, None
 
         # if the response was a database model, then convert it to a
         # dictionary

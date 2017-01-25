@@ -33,7 +33,7 @@ Running Tests
 
 To run all tests, run ::
 
-    python manage.py test
+    python setup.py test
 
 
 Migrations
