@@ -8,5 +8,5 @@ DEBUG = True
 IGNORE_AUTH = True
 SECRET_KEY = 'wzQcp820vrYFE46bj3yL'
 SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-                          'sqlite:///' + db_path
+                          'sqlite:///' + basedir + '/app/databases/dev.db'
 SQLALCHEMY_TRACK_MODIFICATIONS = True
