@@ -46,7 +46,8 @@ class User(db.Model):
 
     def import_data(self, data):
         try:
-            if not User.query.filter(User.username.ilike(data['username'])).count():
+            if not User.query.filter(
+                    User.username.ilike(data['username'])).count():
                 self.username = data['username']
                 self.password_hash = generate_password_hash(data['password'])
             else:

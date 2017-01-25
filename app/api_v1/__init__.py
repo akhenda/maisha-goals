@@ -4,7 +4,7 @@ from ..auth import auth_token
 
 api = Blueprint('api', __name__)
 
-from . import bucketlists, items, errors, users
+from . import bucketlists, items, errors, users  # noqa: E402, F401
 
 
 @api.before_request
