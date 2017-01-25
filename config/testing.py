@@ -1,12 +1,13 @@
 import os
 
 basedir = os.path.abspath('.')
-# db_path = os.path.join(basedir, '/app/databases/test.db')
+os.chdir(basedir)
+# db_path = (basedir + '/app/databases/test.db').strip('/')
 
 
 DEBUG = False
 TESTING = True
 SECRET_KEY = 'SqCgW6kUtw0ypcjfl379'
 SERVER_NAME = 'maisha-goals.com'
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + basedir + '/app/databases/test.db'
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.getcwd() + '/app/databases/test.db'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
