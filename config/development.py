@@ -1,7 +1,8 @@
 import os
 
 basedir = os.path.abspath('.')
-db_path = os.path.join(basedir, 'app/databases/dev.db')
+db_path = os.path.join(basedir, '/app/databases/dev.db')
+
 
 DEBUG = True
 IGNORE_AUTH = True
