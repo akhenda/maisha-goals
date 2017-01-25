@@ -1,7 +1,7 @@
 import os
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-db_path = os.path.join(basedir, '../app/databases/test.db')
+basedir = os.path.abspath('../')
+db_path = os.path.join(basedir, 'app/databases/test.db')
 
 DEBUG = False
 TESTING = True
