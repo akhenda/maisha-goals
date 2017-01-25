@@ -1,4 +1,4 @@
-from .test_base import TestBase
+from tests.test_base import TestBase
 
 
 class TestUsers(TestBase):
