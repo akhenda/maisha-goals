@@ -2,7 +2,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/andela-akhenda/maisha-goals/badge.svg?branch=develop)](https://coveralls.io/github/andela-akhenda/maisha-goals?branch=develop)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/fa80aca7df2b4df0b12340b14f0f4426)](https://www.codacy.com/app/joseph-akhenda/maisha-goals?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=andela-akhenda/maisha-goals&amp;utm_campaign=Badge_Grade)
 [![Code Health](https://landscape.io/github/andela-akhenda/maisha-goals/develop/landscape.svg?style=flat)](https://landscape.io/github/andela-akhenda/maisha-goals/develop)
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/andela-akhenda/cp1a/blob/master/LICENSE)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/andela-akhenda/maisha-goals/blob/master/LICENSE)
 [![PyPI](https://img.shields.io/badge/Python-3.3%2C%203.4%2C%203.5-blue.svg)](https://www.python.org/downloads/release/python-2712/)
 
 # Maisha Goals
@@ -29,8 +29,9 @@ $ pip install -r requirements.txt
 ```
 
 Set the required environment key
-
-`export MAISHA_SECRET='something-really-secret'`
+```
+export MAISHA_SECRET='something-really-secret'
+```
 
 ## Usage
 
@@ -46,64 +47,66 @@ To test the API, use an API Client such as [Postman](https://chrome.google.com/w
 | POST auth/login    | Log a user in | False |
 | POST auth/register     | Register a new user | False |
 | POST api/v1/bucketlists/ | Create a new bucketlist   | True |
-| GET /bucketlists/      | List all created bucketlists | True |
-| GET /bucketlists/id     | get single bucketlist | True |
-| PUT /bucketlists/id | update single bucketlist | True |
-| DELETE bucketlists/id      | Delete a single bucketlist | True |
-| POST bucketlists/id/items/      | Create a new item in a bucketlist | True |
-| PUT bucketlists/id/items/item_id | Update an item in a bucketlist | True |
-| DELETE bucketlists/id/items/item_id      | Delete an item in a bucketlist | True |
-| GET users/        |   Get all users       | True |
-| GET users/id  |   Get a single user   | True |
-| PUT users/id  |   Update a user       | True |
-| DELETE users/id   | Delete a user | True |
+| GET api/v1/bucketlists/      | List all created bucketlists | True |
+| GET api/v1/bucketlists/id     | get single bucketlist | True |
+| PUT api/v1/bucketlists/id | update single bucketlist | True |
+| DELETE api/v1/bucketlists/id      | Delete a single bucketlist | True |
+| POST api/v1/bucketlists/id/items/      | Create a new item in a bucketlist | True |
+| PUT api/v1/bucketlists/id/items/item_id | Update an item in a bucketlist | True |
+| DELETE api/v1/bucketlists/id/items/item_id      | Delete an item in a bucketlist | True |
+| GET api/v1/users/     |   Get all users       | True |
+| GET api/v1/users/id   |   Get a single user   | True |
+| PUT api/v1/users/id   |   Update a user       | True |
+| DELETE api/v1/users/id    | Delete a user | True |
 
 ## Sample Requests
 
 **Registering a new user:**
-To register a new user, hit the `/auth/register` POST endpoint passing a json payload containing the `username` and `password`. 
-![Alt text](/source/registe_new_user.png?raw=true "Optional Title")
+To register a new user, hit the `/auth/register` POST endpoint passing a json payload containing the `username` and `password`.
+
+![Alt text](/app/screenshots/register_user.png?raw=true "Register a User")
 
 
 **Authenticating a user (Login)**
 To authenticate a user, hit the `/auth/login` GET endpoint using HTTP Basic Auth standards i.e. sending a Base64 encoded string containing the username and password in the `Authorization` header.
-![Alt text](/source/login_users.png?raw=true "Optional Title")
+
+![Alt text](/app/screenshots/login_user.png?raw=true "Login a User")
 
 **Sending a token to protected endpoints**
 To send a token with the requests, base64 encode it and send it in the `Authorization` header prefixed with 'Basic ' as shown below. 
-![Alt text](/source/login_users.png?raw=true "Optional Title")
+![Alt text](/app/screenshots/sending_token.png?raw=true "Sending a Token")
 
 **Creating a Bucket list:**
 To create a bucket list, hit the `/api/v1/bucketlists/` POST endpoint passing a json payload containing the `name` and an optional `description`.   
-![Alt text](/source/create_bucketlist.png?raw=true "Optional Title")
+![Alt text](/app/screenshots/create_bucketlist.png?raw=true "CReate a Bucketlist")
 
 **Updating a Bucket list:**
 To update a bucket list, hit the `/api/v1/bucketlists/<id>` PUT endpoint passing a json payload containing the new `name` and/or `description`.   
-![Alt text](/source/create_bucketlist.png?raw=true "Optional Title")
+![Alt text](/app/screenshots/update_bucketlist.png?raw=true "Update a Bucketlist")
 
 **Show a single Bucket list:**
 To show a single bucket list, hit the `/api/v1/bucketlists/<id>` GET endpoint.   
-![Alt text](/source/create_bucketlist.png?raw=true "Optional Title")
+![Alt text](/app/screenshots/get_bucketlist.png?raw=true "Get a Bucketlist")
 
-**Listing all Bucket lists:**  
+**Listing Bucket lists:**  
 To list all bucket lists under a the current user, hit the `/api/v1/bucketlists/` GET endpoint.  
-![Alt text](/source/list_all_bucketlists.png?raw=true "Optional Title")
+![Alt text](/app/screenshots/get_bucketlists.png?raw=true "Get Bucketlists")
 
 **Creating a Bucket list item:**  
 To create a bucket list item, hit the `/api/v1/bucketlists/<id>/items/` POST endpoint passing a json payload containing the `name` and an optional `description`. 
-![Alt text](/source/create_bucketlist_item.png?raw=true "Optional Title")
+![Alt text](/app/screenshots/create_bucketlist_item.png?raw=true "Create a Bucketlist Item")
 
 **Listing all items in a Bucket lists:**  
 To list all bucket lists under a the current user, hit the `/api/v1/bucketlists/<id>/items/` GET endpoint.
-![Alt text](/source/list_all_bucketlists.png?raw=true "Optional Title")
+![Alt text](/app/screenshots/get_bucketlist_items.png?raw=true "Get Bucketlist Items")
 
 **Update user information e.g. the password:**  
 To update/edit a user's information, hit the `/api/v1/users/<id>` PUT endpoint with a payload containing the information to be updated. NB: Editing usernames is not allowed.
-![Alt text](/source/list_all_bucketlists.png?raw=true "Optional Title")
+![Alt text](/app/screenshots/update_user.png?raw=true "Update User Information")
 
 **Deleting a resource:**
 To delete a resource, whether bucket list, bucket list item or a user, hit the respective route with the resource `id` as a DELETE request.   
-![Alt text](/source/create_bucketlist.png?raw=true "Optional Title")
+![Alt text](/app/screenshots/delete_bucketlist_item.png?raw=true "Delete a Resource")
 
 ## Testing
 
