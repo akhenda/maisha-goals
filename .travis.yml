@@ -8,9 +8,18 @@ python:
   - 3.5
 
 # command to install dependencies
-install: pip install -r requirements.txt
+install:
+  - pip install -r requirements.txt
+  - pip install coveralls
+  - pip install codacy-coverage
 
 before_script: flake8 app tests
 
-# command to run tests, e.g. python setup.py test
-script: python setup.py test
+script:
+  - python setup.py test
+  - coverage xml
+  - export CODACY_PROJECT_TOKEN=4a3d29b6fa544c68936fd9b29c17fa46
+  - python-codacy-coverage -r coverage.xml
+
+after_success:
+  coveralls
