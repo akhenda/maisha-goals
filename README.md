@@ -73,39 +73,48 @@ To authenticate a user, hit the `/auth/login` GET endpoint using HTTP Basic Auth
 ![Alt text](/app/screenshots/login_user.png?raw=true "Login a User")
 
 **Sending a token to protected endpoints**
-To send a token with the requests, base64 encode it and send it in the `Authorization` header prefixed with 'Basic ' as shown below. 
+To send a token with the requests, base64 encode it and send it in the `Authorization` header prefixed with 'Basic ' as shown below.
+
 ![Alt text](/app/screenshots/sending_token.png?raw=true "Sending a Token")
 
 **Creating a Bucket list:**
-To create a bucket list, hit the `/api/v1/bucketlists/` POST endpoint passing a json payload containing the `name` and an optional `description`.   
+To create a bucket list, hit the `/api/v1/bucketlists/` POST endpoint passing a json payload containing the `name` and an optional `description`.
+
 ![Alt text](/app/screenshots/create_bucketlist.png?raw=true "CReate a Bucketlist")
 
 **Updating a Bucket list:**
-To update a bucket list, hit the `/api/v1/bucketlists/<id>` PUT endpoint passing a json payload containing the new `name` and/or `description`.   
+To update a bucket list, hit the `/api/v1/bucketlists/<id>` PUT endpoint passing a json payload containing the new `name` and/or `description`.
+
 ![Alt text](/app/screenshots/update_bucketlist.png?raw=true "Update a Bucketlist")
 
 **Show a single Bucket list:**
-To show a single bucket list, hit the `/api/v1/bucketlists/<id>` GET endpoint.   
+To show a single bucket list, hit the `/api/v1/bucketlists/<id>` GET endpoint.
+
 ![Alt text](/app/screenshots/get_bucketlist.png?raw=true "Get a Bucketlist")
 
 **Listing Bucket lists:**  
-To list all bucket lists under a the current user, hit the `/api/v1/bucketlists/` GET endpoint.  
+To list all bucket lists under a the current user, hit the `/api/v1/bucketlists/` GET endpoint.
+
 ![Alt text](/app/screenshots/get_bucketlists.png?raw=true "Get Bucketlists")
 
 **Creating a Bucket list item:**  
-To create a bucket list item, hit the `/api/v1/bucketlists/<id>/items/` POST endpoint passing a json payload containing the `name` and an optional `description`. 
+To create a bucket list item, hit the `/api/v1/bucketlists/<id>/items/` POST endpoint passing a json payload containing the `name` and an optional `description`.
+
 ![Alt text](/app/screenshots/create_bucketlist_item.png?raw=true "Create a Bucketlist Item")
 
 **Listing all items in a Bucket lists:**  
 To list all bucket lists under a the current user, hit the `/api/v1/bucketlists/<id>/items/` GET endpoint.
+
 ![Alt text](/app/screenshots/get_bucketlist_items.png?raw=true "Get Bucketlist Items")
 
 **Update user information e.g. the password:**  
 To update/edit a user's information, hit the `/api/v1/users/<id>` PUT endpoint with a payload containing the information to be updated. NB: Editing usernames is not allowed.
+
 ![Alt text](/app/screenshots/update_user.png?raw=true "Update User Information")
 
 **Deleting a resource:**
-To delete a resource, whether bucket list, bucket list item or a user, hit the respective route with the resource `id` as a DELETE request.   
+To delete a resource, whether bucket list, bucket list item or a user, hit the respective route with the resource `id` as a DELETE request.
+
 ![Alt text](/app/screenshots/delete_bucketlist_item.png?raw=true "Delete a Resource")
 
 ## Testing
