@@ -48,16 +48,16 @@ To test the API, use an API Client such as [Postman](https://chrome.google.com/w
 | POST auth/register     | Register a new user | False |
 | POST api/v1/bucketlists/ | Create a new bucketlist   | True |
 | GET api/v1/bucketlists/      | List all created bucketlists | True |
-| GET api/v1/bucketlists/id     | get single bucketlist | True |
-| PUT api/v1/bucketlists/id | update single bucketlist | True |
-| DELETE api/v1/bucketlists/id      | Delete a single bucketlist | True |
-| POST api/v1/bucketlists/id/items/      | Create a new item in a bucketlist | True |
-| PUT api/v1/bucketlists/id/items/item_id | Update an item in a bucketlist | True |
-| DELETE api/v1/bucketlists/id/items/item_id      | Delete an item in a bucketlist | True |
+| GET api/v1/bucketlists/`<id>`     | get single bucketlist | True |
+| PUT api/v1/bucketlists/`<id>` | update single bucketlist | True |
+| DELETE api/v1/bucketlists/`<id>`      | Delete a single bucketlist | True |
+| POST api/v1/bucketlists/`<id>`/items/      | Create a new item in a bucketlist | True |
+| PUT api/v1/bucketlists/`<id>`/items/`<item_id>` | Update an item in a bucketlist | True |
+| DELETE api/v1/bucketlists/`<id>`/items/`<item_id>`      | Delete an item in a bucketlist | True |
 | GET api/v1/users/     |   Get all users       | True |
-| GET api/v1/users/id   |   Get a single user   | True |
-| PUT api/v1/users/id   |   Update a user       | True |
-| DELETE api/v1/users/id    | Delete a user | True |
+| GET api/v1/users/`<id>`   |   Get a single user   | True |
+| PUT api/v1/users/`<id>`   |   Update a user       | True |
+| DELETE api/v1/users/`<id>`    | Delete a user | True |
 
 ## Sample Requests
 
