@@ -231,7 +231,6 @@ $ make test
 
 ## Built With...
 * [Flask](http://flask.pocoo.org/)
-* [Flask-RESTful](http://flask-restful-cn.readthedocs.io/en/0.3.4/)
 * [Flask-SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.1/)
 
 ## License
