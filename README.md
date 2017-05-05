@@ -28,11 +28,12 @@ Install the required packages:
 $ pip install -r requirements.txt
 ```
 
-Set the required environment keys (`FLASK_CONFIG` can either be "development", "testing" or "production")
+Set the required environment keys
 ```
 $ export FLASK_CONFIG="development"
 $ export MAISHA_SECRET='something-really-secret'
 ```
+`FLASK_CONFIG` can either be "development", "testing" or "production". This is important and should be used according to the context. The `development` environment bypasses authentication to allow rapid development of the project. It also changes the database to the development database. The `testing` environment is simply a staging environment that changes the active database to a testing database. Finally, the `production` environment turns debugging off and switches to the production database.
 
 ## Usage
 
