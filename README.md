@@ -28,9 +28,10 @@ Install the required packages:
 $ pip install -r requirements.txt
 ```
 
-Set the required environment key
+Set the required environment keys (FLASK_CONFIG can either be "development", "testing" or "production")
 ```
-export MAISHA_SECRET='something-really-secret'
+$ export FLASK_CONFIG="development"
+$ export MAISHA_SECRET='something-really-secret'
 ```
 
 ## Usage
