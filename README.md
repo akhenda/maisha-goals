@@ -1,8 +1,8 @@
-[![Build Status](https://travis-ci.org/akhenda/maisha-goals.svg?branch=develop)](https://travis-ci.org/andela-akhenda/maisha-goals)
-[![Coverage Status](https://coveralls.io/repos/github/akhenda/maisha-goals/badge.svg?branch=develop)](https://coveralls.io/github/andela-akhenda/maisha-goals?branch=develop)
+[![Build Status](https://travis-ci.org/akhenda/maisha-goals.svg?branch=develop)](https://travis-ci.org/akhenda/maisha-goals)
+[![Coverage Status](https://coveralls.io/repos/github/andela-akhenda/maisha-goals/badge.svg?branch=develop)](https://coveralls.io/github/andela-akhenda/maisha-goals?branch=develop)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/fa80aca7df2b4df0b12340b14f0f4426)](https://www.codacy.com/app/joseph-akhenda/maisha-goals?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=andela-akhenda/maisha-goals&amp;utm_campaign=Badge_Grade)
-[![Code Health](https://landscape.io/github/andela-akhenda/maisha-goals/develop/landscape.svg?style=flat)](https://landscape.io/github/akhenda/maisha-goals/develop)
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/andela-akhenda/maisha-goals/blob/master/LICENSE)
+[![Code Health](https://landscape.io/github/akhenda/maisha-goals/develop/landscape.svg?style=flat)](https://landscape.io/github/akhenda/maisha-goals/develop)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/akhenda/maisha-goals/blob/master/LICENSE)
 [![PyPI](https://img.shields.io/badge/Python-3.3%2C%203.4%2C%203.5-blue.svg)](https://www.python.org/downloads/release/python-2712/)
 
 # Maisha Goals
