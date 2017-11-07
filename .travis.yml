@@ -1,0 +1,25 @@
+# Config file for automatic testing at travis-ci.org
+
+language: python
+
+python:
+  - 3.3
+  - 3.4
+  - 3.5
+
+# command to install dependencies
+install:
+  - pip install -r requirements.txt
+  - pip install coveralls
+  - pip install codacy-coverage
+
+before_script: flake8 app tests
+
+script:
+  - python setup.py test
+  - coverage xml
+  - export CODACY_PROJECT_TOKEN=4a3d29b6fa544c68936fd9b29c17fa46
+  - python-codacy-coverage -r coverage.xml
+
+after_success:
+  coveralls
